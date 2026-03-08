@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mẫu Thiết Kế - Mici Ads</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/design-modal.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header__container">
+      <a href="/" class="header__logo">
+        <span class="header__logo-icon">M</span>
+        <span class="header__logo-text">Mici Ads</span>
+      </a>
+      <nav class="header__nav header__nav--pill">
+        <a href="/" class="header__nav-link">Trang chủ</a>
+        <a href="/#services" class="header__nav-link">Dịch vụ</a>
+        <a href="/templates.html" class="header__nav-link header__nav-link--active">Mẫu thiết kế</a>
+        <a href="/#testimonials" class="header__nav-link">Đánh giá</a>
+        <a href="/#faq" class="header__nav-link">FAQ</a>
+      </nav>
+      <a href="tel:+49123456789" class="header__nav-link header__nav-link--cta">+49 123 456 789</a>
+      <button class="header__menu-btn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero + Search (Canva-style) -->
+  <section class="hero" id="portfolio">
+    <div class="hero__container">
+      <h1 class="hero__title">
+        <span class="hero__title-accent">Thiết kế</span> tỏa sáng, <span class="hero__title-burst">doanh thu</span> bùng nổ
+      </h1>
+      <!-- Canva-style tab pills -->
+      <div class="hero__tabs">
+        <button class="hero__tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+          Mẫu thiết kế
+        </button>
+        <button class="hero__tab hero__tab--active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Kho mẫu
+        </button>
+        <button class="hero__tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Dịch vụ
+        </button>
+      </div>
+      <!-- Canva-style large search box -->
+      <div class="hero__search">
+        <svg class="hero__search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" class="hero__search-input" placeholder="Tìm kiếm mẫu thiết kế" id="searchInput">
+        <button class="hero__search-settings" aria-label="Search settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18M7.5 7.5l9 9M16.5 7.5l-9 9"/></svg>
+        </button>
+      </div>
+      <!-- Row 1: Industry pills -->
+      <div class="hero__filters">
+        <button class="filter-pill filter-pill--clear" id="clearFilters" style="display:none" aria-label="Clear filters">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="filter-pill-group" id="industryFilters">
+          <button class="filter-pill filter-pill--active" data-filter="all">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+            Tất cả
+          </button>
+          <button class="filter-pill" data-filter="nail">Tiệm Nail</button>
+          <button class="filter-pill" data-filter="beauty">Thẩm mỹ</button>
+          <button class="filter-pill" data-filter="restaurant">Nhà hàng</button>
+          <button class="filter-pill" data-filter="cafe">Quán cafe</button>
+          <button class="filter-pill" data-filter="others">Khác</button>
+        </div>
+      </div>
+      <!-- Row 2: Category & Style dropdowns (centered) -->
+      <div class="hero__filters-secondary">
+        <button class="filter-pill filter-pill--dropdown" id="categoryDropdown">
+          Danh mục
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <button class="filter-pill filter-pill--dropdown" id="styleDropdown">
+          Phong cách
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Dropdown panels (hidden by default) -->
+    <div class="dropdown-panel" id="categoryPanel">
+      <div class="dropdown-panel__options" id="categoryFilters">
+        <button class="filter-pill filter-pill--active" data-filter="all">Tất cả</button>
+        <button class="filter-pill" data-filter="menu">Thực đơn</button>
+        <button class="filter-pill" data-filter="flyer">Tờ rơi</button>
+        <button class="filter-pill" data-filter="logo">Logo</button>
+        <button class="filter-pill" data-filter="loyalty-card">Thẻ tích điểm</button>
+        <button class="filter-pill" data-filter="voucher">Phiếu quà tặng</button>
+        <button class="filter-pill" data-filter="website">Website</button>
+      </div>
+    </div>
+    <div class="dropdown-panel" id="stylePanel">
+      <div class="dropdown-panel__options" id="styleFilters">
+        <button class="filter-pill filter-pill--active" data-filter="all">Tất cả</button>
+        <button class="filter-pill" data-filter="feminine">Nữ tính</button>
+        <button class="filter-pill" data-filter="professional">Chuyên nghiệp</button>
+        <button class="filter-pill" data-filter="modern">Hiện đại</button>
+        <button class="filter-pill" data-filter="elegant">Sang trọng</button>
+        <button class="filter-pill" data-filter="minimalist">Tối giản</button>
+        <button class="filter-pill" data-filter="colorful">Nhiều màu</button>
+        <button class="filter-pill" data-filter="simple">Đơn giản</button>
+        <button class="filter-pill" data-filter="beautiful">Tinh tế</button>
+        <button class="filter-pill" data-filter="aesthetic">Thẩm mỹ</button>
+        <button class="filter-pill" data-filter="clean">Gọn gàng</button>
+        <button class="filter-pill" data-filter="pastel">Pastel</button>
+        <button class="filter-pill" data-filter="luxury">Cao cấp</button>
+        <button class="filter-pill" data-filter="bold">Nổi bật</button>
+        <button class="filter-pill" data-filter="vibrant">Rực rỡ</button>
+        <button class="filter-pill" data-filter="gold">Vàng gold</button>
+        <button class="filter-pill" data-filter="minimal">Tối giản</button>
+        <button class="filter-pill" data-filter="creative">Sáng tạo</button>
+        <button class="filter-pill" data-filter="classic">Cổ điển</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Gallery -->
+  <section class="gallery">
+    <div class="gallery__container">
+      <div class="gallery__header">
+        <h2 class="gallery__title">Sản phẩm</h2>
+        <p class="gallery__count"><span id="resultCount">53</span> mẫu thiết kế</p>
+      </div>
+      <div class="gallery__grid" id="galleryGrid">
+        <!-- Gallery items injected by JS -->
+      </div>
+      <!-- Login gate: shown when guest has not logged in -->
+      <div class="login-gate" id="loginGate">
+        <div class="login-gate__fade"></div>
+        <div class="login-gate__content">
+          <div class="login-gate__icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+          </div>
+          <h3 class="login-gate__title">Đăng nhập để xem thêm</h3>
+          <p class="login-gate__desc">Còn <span class="login-gate__count">0</span> mẫu thiết kế đang chờ bạn khám phá</p>
+          <button class="login-gate__btn" onclick="handleLoginGate()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Đăng nhập ngay
+          </button>
+          <p class="login-gate__sub">Miễn phí &bull; Không cần thẻ tín dụng</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__brand">
+        <span class="header__logo-icon">M</span>
+        <span class="header__logo-text">Mici Ads</span>
+      </div>
+      <p class="footer__copy">&copy; 2026 Mici Ads. Mọi quyền được bảo lưu.</p>
+    </div>
+  </footer>
+
+  <!-- Design Detail Modal -->
+  <div class="modal-overlay" id="designModal">
+    <div class="modal">
+      <button class="modal__close" id="modalClose">&times;</button>
+      <div class="modal__content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/design-modal.js"></script>
+  <script src="js/visual-effects.js"></script>
+</body>
+</html>

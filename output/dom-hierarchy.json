@@ -1,0 +1,755 @@
+{
+  "root": {
+    "id": "0",
+    "tagName": "body",
+    "depth": 0,
+    "role": null,
+    "section": "hero",
+    "attributes": {
+      "id": null,
+      "className": null,
+      "role": null
+    },
+    "dimensions": {
+      "width": 1440,
+      "height": 10106,
+      "x": 0,
+      "y": 0
+    },
+    "layout": {
+      "display": "block"
+    },
+    "children": [
+      {
+        "id": "0-0",
+        "tagName": "div",
+        "depth": 1,
+        "role": null,
+        "section": "hero",
+        "attributes": {
+          "id": "main",
+          "className": null,
+          "role": null
+        },
+        "dimensions": {
+          "width": 1440,
+          "height": 10106,
+          "x": 0,
+          "y": 0
+        },
+        "layout": {
+          "display": "block"
+        },
+        "children": [
+          {
+            "id": "0-0-0",
+            "tagName": "div",
+            "depth": 2,
+            "role": null,
+            "section": "hero",
+            "attributes": {
+              "id": null,
+              "className": "framer-yD6aD framer-131wej2",
+              "role": null
+            },
+            "dimensions": {
+              "width": 1440,
+              "height": 10106,
+              "x": 0,
+              "y": 0
+            },
+            "layout": {
+              "display": "flex",
+              "position": "relative",
+              "flexDirection": "column"
+            },
+            "children": [
+              {
+                "id": "0-0-0-0",
+                "tagName": "div",
+                "depth": 3,
+                "role": "container",
+                "section": "hero",
+                "attributes": {
+                  "id": null,
+                  "className": "framer-1585k3b-container",
+                  "role": null
+                },
+                "dimensions": {
+                  "width": 1400,
+                  "height": 80,
+                  "x": 20,
+                  "y": 0
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "fixed"
+                },
+                "children": [],
+                "parentId": "0-0-0"
+              },
+              {
+                "id": "0-0-0-1",
+                "tagName": "div",
+                "depth": 3,
+                "role": "container",
+                "section": "footer",
+                "attributes": {
+                  "id": null,
+                  "className": "framer-p39ln9-container",
+                  "role": null
+                },
+                "dimensions": {
+                  "width": 1440,
+                  "height": 741,
+                  "x": 0,
+                  "y": 9365
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "relative"
+                },
+                "children": [],
+                "parentId": "0-0-0"
+              },
+              {
+                "id": "0-0-0-2",
+                "tagName": "div",
+                "depth": 3,
+                "role": null,
+                "section": "hero",
+                "attributes": {
+                  "id": null,
+                  "className": "framer-19yg4z7",
+                  "role": null
+                },
+                "dimensions": {
+                  "width": 142,
+                  "height": 36,
+                  "x": 1278,
+                  "y": 802
+                },
+                "layout": {
+                  "display": "flex",
+                  "position": "fixed",
+                  "flexDirection": "column"
+                },
+                "children": [
+                  {
+                    "id": "0-0-0-2-0",
+                    "tagName": "div",
+                    "depth": 4,
+                    "role": "container",
+                    "section": "hero",
+                    "attributes": {
+                      "id": null,
+                      "className": "framer-ykscf9-container",
+                      "role": null
+                    },
+                    "dimensions": {
+                      "width": 142,
+                      "height": 36,
+                      "x": 1278,
+                      "y": 802
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "relative"
+                    },
+                    "children": [
+                      {
+                        "id": "0-0-0-2-0-0",
+                        "tagName": "a",
+                        "depth": 5,
+                        "role": null,
+                        "section": "hero",
+                        "attributes": {
+                          "id": null,
+                          "className": "framer-iEEMI framer-Hsw4d framer-1n5pqa8",
+                          "role": null
+                        },
+                        "dimensions": {
+                          "width": 142,
+                          "height": 36,
+                          "x": 1278,
+                          "y": 802
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative"
+                        },
+                        "children": [
+                          {
+                            "id": "0-0-0-2-0-0-0",
+                            "tagName": "div",
+                            "depth": 6,
+                            "role": null,
+                            "section": "hero",
+                            "attributes": {
+                              "id": null,
+                              "className": "framer-3n5ozx",
+                              "role": null
+                            },
+                            "dimensions": {
+                              "width": 91,
+                              "height": 21,
+                              "x": 1296,
+                              "y": 810
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "flexDirection": "column"
+                            },
+                            "children": [
+                              {
+                                "id": "0-0-0-2-0-0-0-0",
+                                "tagName": "div",
+                                "depth": 7,
+                                "role": null,
+                                "section": "hero",
+                                "attributes": {
+                                  "id": null,
+                                  "className": "framer-w3bzt9",
+                                  "role": null
+                                },
+                                "dimensions": {
+                                  "width": 82,
+                                  "height": 21,
+                                  "x": 1296,
+                                  "y": 810
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "flexDirection": "column"
+                                },
+                                "children": [
+                                  {
+                                    "id": "0-0-0-2-0-0-0-0-0",
+                                    "tagName": "p",
+                                    "depth": 8,
+                                    "role": null,
+                                    "section": "hero",
+                                    "attributes": {
+                                      "id": null,
+                                      "className": "framer-text framer-styles-preset-1fv5nge",
+                                      "role": null
+                                    },
+                                    "dimensions": {
+                                      "width": 82,
+                                      "height": 21,
+                                      "x": 1296,
+                                      "y": 810
+                                    },
+                                    "layout": {
+                                      "display": "block"
+                                    },
+                                    "children": [],
+                                    "parentId": "0-0-0-2-0-0-0-0"
+                                  }
+                                ],
+                                "parentId": "0-0-0-2-0-0-0"
+                              },
+                              {
+                                "id": "0-0-0-2-0-0-0-1",
+                                "tagName": "div",
+                                "depth": 7,
+                                "role": null,
+                                "section": "hero",
+                                "attributes": {
+                                  "id": null,
+                                  "className": "framer-19nw8y8",
+                                  "role": null
+                                },
+                                "dimensions": {
+                                  "width": 83,
+                                  "height": 17,
+                                  "x": 1296,
+                                  "y": 839
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "absolute",
+                                  "flexDirection": "column"
+                                },
+                                "children": [
+                                  {
+                                    "id": "0-0-0-2-0-0-0-1-0",
+                                    "tagName": "p",
+                                    "depth": 8,
+                                    "role": null,
+                                    "section": "hero",
+                                    "attributes": {
+                                      "id": null,
+                                      "className": "framer-text",
+                                      "role": null
+                                    },
+                                    "dimensions": {
+                                      "width": 83,
+                                      "height": 17,
+                                      "x": 1296,
+                                      "y": 839
+                                    },
+                                    "layout": {
+                                      "display": "block"
+                                    },
+                                    "children": [],
+                                    "parentId": "0-0-0-2-0-0-0-1"
+                                  }
+                                ],
+                                "parentId": "0-0-0-2-0-0-0"
+                              }
+                            ],
+                            "parentId": "0-0-0-2-0-0"
+                          },
+                          {
+                            "id": "0-0-0-2-0-0-1",
+                            "tagName": "div",
+                            "depth": 6,
+                            "role": null,
+                            "section": "hero",
+                            "attributes": {
+                              "id": null,
+                              "className": "framer-1jzhfho",
+                              "role": null
+                            },
+                            "dimensions": {
+                              "width": 11,
+                              "height": 12,
+                              "x": 1392,
+                              "y": 814
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "flexDirection": "column"
+                            },
+                            "children": [
+                              {
+                                "id": "0-0-0-2-0-0-1-0",
+                                "tagName": "div",
+                                "depth": 7,
+                                "role": null,
+                                "section": "hero",
+                                "attributes": {
+                                  "id": null,
+                                  "className": "framer-1fpkqi6",
+                                  "role": null
+                                },
+                                "dimensions": {
+                                  "width": 11,
+                                  "height": 12,
+                                  "x": 1392,
+                                  "y": 814
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative"
+                                },
+                                "children": [
+                                  {
+                                    "id": "0-0-0-2-0-0-1-0-0",
+                                    "tagName": "div",
+                                    "depth": 8,
+                                    "role": null,
+                                    "section": "hero",
+                                    "attributes": {
+                                      "id": null,
+                                      "className": "framer-zrr2gv",
+                                      "role": null
+                                    },
+                                    "dimensions": {
+                                      "width": 11,
+                                      "height": 12,
+                                      "x": 1392,
+                                      "y": 814
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative"
+                                    },
+                                    "children": [],
+                                    "parentId": "0-0-0-2-0-0-1-0"
+                                  }
+                                ],
+                                "parentId": "0-0-0-2-0-0-1"
+                              },
+                              {
+                                "id": "0-0-0-2-0-0-1-1",
+                                "tagName": "div",
+                                "depth": 7,
+                                "role": null,
+                                "section": "hero",
+                                "attributes": {
+                                  "id": null,
+                                  "className": "framer-13vvqp6",
+                                  "role": null
+                                },
+                                "dimensions": {
+                                  "width": 11,
+                                  "height": 12,
+                                  "x": 1391,
+                                  "y": 794
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "absolute"
+                                },
+                                "children": [
+                                  {
+                                    "id": "0-0-0-2-0-0-1-1-0",
+                                    "tagName": "div",
+                                    "depth": 8,
+                                    "role": null,
+                                    "section": "hero",
+                                    "attributes": {
+                                      "id": null,
+                                      "className": "framer-vkjsdm",
+                                      "role": null
+                                    },
+                                    "dimensions": {
+                                      "width": 11,
+                                      "height": 12,
+                                      "x": 1391,
+                                      "y": 794
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative"
+                                    },
+                                    "children": [],
+                                    "parentId": "0-0-0-2-0-0-1-1"
+                                  }
+                                ],
+                                "parentId": "0-0-0-2-0-0-1"
+                              }
+                            ],
+                            "parentId": "0-0-0-2-0-0"
+                          },
+                          {
+                            "id": "0-0-0-2-0-0-2",
+                            "tagName": "div",
+                            "depth": 6,
+                            "role": null,
+                            "section": "hero",
+                            "attributes": {
+                              "id": null,
+                              "className": "framer-10wcix2",
+                              "role": null
+                            },
+                            "dimensions": {
+                              "width": 142,
+                              "height": 36,
+                              "x": 1278,
+                              "y": 852
+                            },
+                            "layout": {
+                              "display": "block",
+                              "position": "absolute"
+                            },
+                            "children": [],
+                            "parentId": "0-0-0-2-0-0"
+                          }
+                        ],
+                        "parentId": "0-0-0-2-0"
+                      }
+                    ],
+                    "parentId": "0-0-0-2"
+                  }
+                ],
+                "parentId": "0-0-0"
+              }
+            ],
+            "parentId": "0-0"
+          },
+          {
+            "id": "0-0-1",
+            "tagName": "div",
+            "depth": 2,
+            "role": null,
+            "section": "footer",
+            "attributes": {
+              "id": "template-overlay",
+              "className": null,
+              "role": null
+            },
+            "dimensions": {
+              "width": 1440,
+              "height": 0,
+              "x": 0,
+              "y": 10106
+            },
+            "layout": {
+              "display": "block"
+            },
+            "children": [],
+            "parentId": "0-0"
+          }
+        ],
+        "parentId": "0"
+      },
+      {
+        "id": "0-1",
+        "tagName": "div",
+        "depth": 1,
+        "role": null,
+        "section": "hero",
+        "attributes": {
+          "id": "__framer-badge-container",
+          "className": null,
+          "role": null
+        },
+        "dimensions": {
+          "width": 1440,
+          "height": 78,
+          "x": 0,
+          "y": 822
+        },
+        "layout": {
+          "display": "flex",
+          "position": "fixed"
+        },
+        "children": [
+          {
+            "id": "0-1-0",
+            "tagName": "a",
+            "depth": 2,
+            "role": null,
+            "section": "hero",
+            "attributes": {
+              "id": null,
+              "className": "framer-6jWyo framer-n0ccwk framer-v-n0ccwk",
+              "role": null
+            },
+            "dimensions": {
+              "width": 140,
+              "height": 38,
+              "x": 1280,
+              "y": 842
+            },
+            "layout": {
+              "display": "block",
+              "position": "relative"
+            },
+            "children": [
+              {
+                "id": "0-1-0-0",
+                "tagName": "div",
+                "depth": 3,
+                "role": null,
+                "section": "hero",
+                "attributes": {
+                  "id": null,
+                  "className": "framer-13yxzio",
+                  "role": null
+                },
+                "dimensions": {
+                  "width": 138,
+                  "height": 36,
+                  "x": 1281,
+                  "y": 843
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "absolute"
+                },
+                "children": [],
+                "parentId": "0-1-0"
+              },
+              {
+                "id": "0-1-0-1",
+                "tagName": "div",
+                "depth": 3,
+                "role": null,
+                "section": "hero",
+                "attributes": {
+                  "id": null,
+                  "className": "framer-19yaanm",
+                  "role": null
+                },
+                "dimensions": {
+                  "width": 119,
+                  "height": 16,
+                  "x": 1291,
+                  "y": 853
+                },
+                "layout": {
+                  "display": "flex",
+                  "position": "absolute"
+                },
+                "children": [
+                  {
+                    "id": "0-1-0-1-0",
+                    "tagName": "div",
+                    "depth": 4,
+                    "role": null,
+                    "section": "hero",
+                    "attributes": {
+                      "id": null,
+                      "className": "framer-1kflzx5",
+                      "role": null
+                    },
+                    "dimensions": {
+                      "width": 12,
+                      "height": 16,
+                      "x": 1291,
+                      "y": 853
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "relative"
+                    },
+                    "children": [
+                      {
+                        "id": "0-1-0-1-0-0",
+                        "tagName": "div",
+                        "depth": 5,
+                        "role": null,
+                        "section": "hero",
+                        "attributes": {
+                          "id": null,
+                          "className": "framer-hcsc7 framer-e50co",
+                          "role": null
+                        },
+                        "dimensions": {
+                          "width": 12,
+                          "height": 20,
+                          "x": 1291,
+                          "y": 851
+                        },
+                        "layout": {
+                          "display": "block",
+                          "position": "absolute"
+                        },
+                        "children": [],
+                        "parentId": "0-1-0-1-0"
+                      }
+                    ],
+                    "parentId": "0-1-0-1"
+                  },
+                  {
+                    "id": "0-1-0-1-1",
+                    "tagName": "p",
+                    "depth": 4,
+                    "role": null,
+                    "section": "hero",
+                    "attributes": {
+                      "id": null,
+                      "className": null,
+                      "role": null
+                    },
+                    "dimensions": {
+                      "width": 0,
+                      "height": 0,
+                      "x": 1350,
+                      "y": 861
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute"
+                    },
+                    "children": [],
+                    "parentId": "0-1-0-1"
+                  },
+                  {
+                    "id": "0-1-0-1-2",
+                    "tagName": "div",
+                    "depth": 4,
+                    "role": null,
+                    "section": "hero",
+                    "attributes": {
+                      "id": null,
+                      "className": "framer-g7oZR framer-1um7t9d",
+                      "role": null
+                    },
+                    "dimensions": {
+                      "width": 97,
+                      "height": 10,
+                      "x": 1313,
+                      "y": 856
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "relative"
+                    },
+                    "children": [],
+                    "parentId": "0-1-0-1"
+                  }
+                ],
+                "parentId": "0-1-0"
+              },
+              {
+                "id": "0-1-0-2",
+                "tagName": "div",
+                "depth": 3,
+                "role": null,
+                "section": "hero",
+                "attributes": {
+                  "id": null,
+                  "className": "framer-j4ugry",
+                  "role": null
+                },
+                "dimensions": {
+                  "width": 140,
+                  "height": 38,
+                  "x": 1280,
+                  "y": 842
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "absolute"
+                },
+                "children": [],
+                "parentId": "0-1-0"
+              },
+              {
+                "id": "0-1-0-3",
+                "tagName": "div",
+                "depth": 3,
+                "role": null,
+                "section": "hero",
+                "attributes": {
+                  "id": null,
+                  "className": "framer-jnuwbw",
+                  "role": null
+                },
+                "dimensions": {
+                  "width": 140,
+                  "height": 38,
+                  "x": 1280,
+                  "y": 842
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "absolute"
+                },
+                "children": [],
+                "parentId": "0-1-0"
+              }
+            ],
+            "parentId": "0-1"
+          }
+        ],
+        "parentId": "0"
+      }
+    ],
+    "parentId": null
+  },
+  "landmarks": {
+    "header": null,
+    "main": null,
+    "footer": null,
+    "nav": [],
+    "aside": []
+  },
+  "headingTree": [],
+  "stats": {
+    "totalNodes": 30,
+    "maxDepth": 8,
+    "landmarkCount": 0,
+    "pageHeight": 10106,
+    "pageWidth": 1440,
+    "extractionTimeMs": 59
+  }
+}

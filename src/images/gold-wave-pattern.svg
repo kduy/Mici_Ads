@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="none">
+  <defs>
+    <!-- Japanese seigaiha-inspired wave pattern -->
+    <pattern id="wavePattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+      <!-- Concentric arcs — traditional seigaiha motif -->
+      <path d="M60 120 A60 60 0 0 1 0 60" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.12"/>
+      <path d="M60 120 A50 50 0 0 1 10 70" fill="none" stroke="url(#goldGrad)" stroke-width="0.4" opacity="0.08"/>
+      <path d="M60 120 A40 40 0 0 1 20 80" fill="none" stroke="url(#goldGrad)" stroke-width="0.3" opacity="0.06"/>
+      <path d="M120 120 A60 60 0 0 1 60 60" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.12"/>
+      <path d="M120 120 A50 50 0 0 1 70 70" fill="none" stroke="url(#goldGrad)" stroke-width="0.4" opacity="0.08"/>
+      <path d="M120 120 A40 40 0 0 1 80 80" fill="none" stroke="url(#goldGrad)" stroke-width="0.3" opacity="0.06"/>
+      <path d="M180 120 A60 60 0 0 1 120 60" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.12"/>
+      <!-- Offset row -->
+      <path d="M0 60 A60 60 0 0 1 -60 0" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.10"/>
+      <path d="M0 60 A50 50 0 0 1 -50 10" fill="none" stroke="url(#goldGrad)" stroke-width="0.4" opacity="0.07"/>
+      <path d="M60 60 A60 60 0 0 1 0 0" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.10"/>
+      <path d="M60 60 A50 50 0 0 1 10 10" fill="none" stroke="url(#goldGrad)" stroke-width="0.4" opacity="0.07"/>
+      <path d="M120 60 A60 60 0 0 1 60 0" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.10"/>
+      <path d="M120 60 A50 50 0 0 1 70 10" fill="none" stroke="url(#goldGrad)" stroke-width="0.4" opacity="0.07"/>
+    </pattern>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="50%" stop-color="#c9a227"/>
+      <stop offset="100%" stop-color="#b8960f"/>
+    </linearGradient>
+    <!-- Flowing wave curves -->
+    <linearGradient id="waveGold1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
+      <stop offset="20%" stop-color="#d4af37" stop-opacity="0.06"/>
+      <stop offset="50%" stop-color="#c9a227" stop-opacity="0.09"/>
+      <stop offset="80%" stop-color="#d4af37" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="waveGold2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#d4af37" stop-opacity="0.04"/>
+      <stop offset="50%" stop-color="#b8960f" stop-opacity="0.07"/>
+      <stop offset="70%" stop-color="#d4af37" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Base pattern fill -->
+  <rect width="1440" height="900" fill="url(#wavePattern)"/>
+  <!-- Flowing wave curves — nami style -->
+  <path d="M0 200 Q360 140 720 220 T1440 180" fill="none" stroke="url(#waveGold1)" stroke-width="1.5"/>
+  <path d="M0 210 Q360 150 720 230 T1440 190" fill="none" stroke="url(#waveGold1)" stroke-width="1"/>
+  <path d="M0 400 Q400 340 800 420 T1440 380" fill="none" stroke="url(#waveGold2)" stroke-width="1.5"/>
+  <path d="M0 410 Q400 350 800 430 T1440 390" fill="none" stroke="url(#waveGold2)" stroke-width="1"/>
+  <path d="M0 600 Q300 540 700 620 T1440 580" fill="none" stroke="url(#waveGold1)" stroke-width="1.2"/>
+  <path d="M0 610 Q300 550 700 630 T1440 590" fill="none" stroke="url(#waveGold1)" stroke-width="0.8"/>
+  <path d="M0 800 Q360 740 720 820 T1440 780" fill="none" stroke="url(#waveGold2)" stroke-width="1"/>
+</svg>

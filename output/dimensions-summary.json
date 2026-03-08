@@ -1,0 +1,72 @@
+{
+  "_comment": "USE THESE EXACT VALUES - DO NOT ESTIMATE",
+  "EXACT_DIMENSIONS": {
+    "container_max_width": "1440px",
+    "section_padding": "150px 30px",
+    "card_dimensions": {
+      "width": "1440px",
+      "height": "431px",
+      "padding": "24px"
+    },
+    "gap": "0px"
+  },
+  "EXACT_TYPOGRAPHY": {
+    "h1": "76px",
+    "h2": "52px",
+    "h3": "82px",
+    "body": "16px"
+  },
+  "TYPOGRAPHY_BY_SECTION": {
+    "content": {
+      "p": "16px",
+      "h1": "76px",
+      "h2": "52px"
+    },
+    "footer": {
+      "p": "20px",
+      "h3": "82px"
+    },
+    "nav": {
+      "p": "16px"
+    }
+  },
+  "SECTIONS": {
+    "hero": {
+      "found": true,
+      "containerWidth": 1440
+    },
+    "content": {
+      "found": true,
+      "containerWidth": 1440
+    },
+    "header": {
+      "found": false,
+      "containerWidth": null
+    },
+    "footer": {
+      "found": true,
+      "containerWidth": 753
+    },
+    "sidebar": {
+      "found": false,
+      "width": null
+    }
+  },
+  "RESPONSIVE": {
+    "desktop_breakpoint": "1440px",
+    "tablet_breakpoint": "768px",
+    "mobile_breakpoint": "375px",
+    "typography_scaling": {
+      "h1": {
+        "desktop": "76px",
+        "tablet": "38px",
+        "mobile": "38px"
+      },
+      "h2": {
+        "desktop": "52px",
+        "tablet": "32px",
+        "mobile": "32px"
+      }
+    }
+  }
+}

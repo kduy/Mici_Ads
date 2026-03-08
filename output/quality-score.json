@@ -1,0 +1,18 @@
+{
+  "overall": 45,
+  "metrics": {
+    "cssCoverage": 0,
+    "assetCompleteness": 100,
+    "responsiveFidelity": 100,
+    "htmlSemantics": 0,
+    "accessibility": 0
+  },
+  "weights": {
+    "cssCoverage": 0.3,
+    "assetCompleteness": 0.25,
+    "responsiveFidelity": 0.2,
+    "htmlSemantics": 0.15,
+    "accessibility": 0.1
+  },
+  "maxScore": 100
+}
