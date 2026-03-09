@@ -1,0 +1,10 @@
+node_modules
+.git
+.claude
+plans
+docs
+src
+*.md
+docker-compose.yml
+vercel.json
+.gitignore
