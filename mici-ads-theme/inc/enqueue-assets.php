@@ -40,6 +40,17 @@ function mici_enqueue_assets() {
 		return;
 	}
 
+	// --- Auth page ---
+	if ( is_page_template( 'page-auth.php' ) ) {
+		wp_enqueue_style(
+			'mici-auth',
+			MICI_THEME_URI . '/css/auth.css',
+			array( 'mici-styles' ),
+			MICI_THEME_VERSION
+		);
+		return;
+	}
+
 	// --- Templates page only ---
 	if ( is_page_template( 'page-templates.php' ) ) {
 		mici_enqueue_templates_page_assets();
@@ -119,12 +130,16 @@ function mici_enqueue_templates_page_assets() {
 		true
 	);
 
-	// Inject login state and login URL before main.js runs.
-	$login_url = wp_login_url( get_permalink() );
+	// Inject auth state before main.js runs.
+	$user_role = function_exists( 'mici_get_user_role' ) ? mici_get_user_role() : 'guest';
+	$auth_url  = function_exists( 'mici_get_auth_page_url' ) ? mici_get_auth_page_url() : '';
+	$login_url = $auth_url ? $auth_url : wp_login_url( get_permalink() );
+
 	wp_add_inline_script(
 		'mici-main',
 		'window.miciUserLoggedIn = ' . ( is_user_logged_in() ? 'true' : 'false' ) . ';'
-		. 'window.miciLoginUrl = "' . esc_url( $login_url ) . '";',
+		. 'window.miciUserRole = ' . wp_json_encode( $user_role ) . ';'
+		. 'window.miciLoginUrl = ' . wp_json_encode( esc_url( $login_url ) ) . ';',
 		'before'
 	);
 
@@ -188,11 +203,12 @@ function mici_get_designs_data() {
 			}
 
 			$items[] = array(
-				'id'       => $id,
-				'name'     => get_the_title(),
-				'image'    => $thumb_url ? esc_url( $thumb_url ) : '',
-				'images'   => $gallery_urls,
-				'industry' => esc_html( get_post_meta( $id, '_design_industry', true ) ),
+				'id'        => $id,
+				'name'      => get_the_title(),
+				'image'     => $thumb_url ? esc_url( $thumb_url ) : '',
+				'images'    => $gallery_urls,
+				'isPremium' => ( '1' === get_post_meta( $id, '_design_premium', true ) ),
+				'industry'  => esc_html( get_post_meta( $id, '_design_industry', true ) ),
 				'category' => esc_html( get_post_meta( $id, '_design_category', true ) ),
 				'style'    => esc_html( get_post_meta( $id, '_design_style', true ) ),
 				'theme'    => esc_html( get_post_meta( $id, '_design_theme', true ) ),

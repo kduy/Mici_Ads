@@ -3,7 +3,7 @@
  * Canva-style filter pills with dropdown panels for category/style.
  */
 
-const portfolioItems = [
+const portfolioItems = window.miciDesigns || [
   // --- Nail Salon Designs --- (colors: [60% primary, 30% secondary, 7% accent, 3% pop])
   { id: 1, name: "Olivia Nail Art Salon", industry: "nail", category: "logo", style: "minimal", theme: "card-theme-nail-2", logo: "OLIVIA", sub: "Nail Art Salon", detail: "Logo Design", colors: ["#fff5f5", "#fce4ec", "#f06292", "#ad1457"] },
   { id: 2, name: "Licera & Co Studio", industry: "nail", category: "logo", style: "elegant", theme: "card-theme-nail-1", logo: "Licera & Co", sub: "Nail Art Studio", detail: "Brand Identity", colors: ["#fce4ec", "#f4c2c2", "#e91e63", "#880e4f"] },
@@ -70,7 +70,7 @@ const portfolioItems = [
 ];
 
 // Active filter state (category/style are arrays for multi-select; empty = all)
-const filters = { industry: "all", category: [], style: [], search: "" };
+const filters = { industry: "all", category: [], style: [], search: "", premium: false };
 
 /** Industry display config */
 const INDUSTRY_LABELS = { nail: "Tiệm Nail", beauty: "Thẩm mỹ", restaurant: "Nhà hàng", cafe: "Quán cafe", others: "Khác" };
@@ -105,10 +105,14 @@ function createCardHTML(item) {
             <div class="card-design__detail">${item.detail}</div>
           </div>`;
 
+  // Crown icon for premium cards (only rendered for VIP users).
+  const crownHTML = (item.isPremium && canSeePremium) ? CROWN_ICON : '';
+
   return `
-    <div class="gallery-card" data-id="${item.id}" data-industry="${item.industry}" data-category="${item.category}" data-style="${item.style}">
+    <div class="gallery-card${item.isPremium ? ' gallery-card--premium' : ''}" data-id="${item.id}" data-industry="${item.industry}" data-category="${item.category}" data-style="${item.style}">
       <div class="gallery-card__image">
         <div class="gallery-card__image-inner ${item.image ? '' : item.theme}">
+          ${crownHTML}
           ${cardInner}
           <div class="gallery-card__overlay">
             <span class="gallery-card__overlay-btn">Xem thiết kế</span>
@@ -143,11 +147,20 @@ function capitalize(str) {
   return VI_LABELS[str] || str.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-/** Login gate state — true means user "logged in" and can see all cards */
-let isLoggedIn = false;
+/** Login gate state — driven by WP is_user_logged_in() passed via window global */
+let isLoggedIn = window.miciUserLoggedIn || false;
+
+/** User role: 'guest', 'mici_registered', 'mici_vip', 'mici_inactive' */
+const userRole = window.miciUserRole || 'guest';
+
+/** Whether current user can see premium cards */
+const canSeePremium = (userRole === 'mici_vip');
 
 /** Ratio of cards shown to guests (30%) */
 const GUEST_CARD_RATIO = 0.3;
+
+/** SVG crown icon for premium cards (gold, top-right) */
+const CROWN_ICON = '<svg class="gallery-card__crown" width="22" height="22" viewBox="0 0 24 24" fill="#c9a96e" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 18.5l1.5-9 4.5 4.5L12 7l3.5 7 4.5-4.5 1.5 9h-19z"/><rect x="2.5" y="19" width="19" height="2" rx="1"/></svg>';
 
 /** Filters and re-renders the gallery grid */
 function renderGallery() {
@@ -156,6 +169,12 @@ function renderGallery() {
   const loginGate = document.getElementById("loginGate");
 
   const filtered = portfolioItems.filter((item) => {
+    // Role-based premium filtering: hide premium cards from non-VIP users.
+    if (item.isPremium && !canSeePremium) return false;
+
+    // Premium filter pill: when active, show only premium cards.
+    if (filters.premium && !item.isPremium) return false;
+
     if (filters.industry !== "all" && item.industry !== filters.industry) return false;
     if (filters.category.length > 0 && !filters.category.includes(item.category)) return false;
     if (filters.style.length > 0 && !filters.style.includes(item.style)) return false;
@@ -175,16 +194,18 @@ function renderGallery() {
     return;
   }
 
-  const visibleCount = isLoggedIn ? filtered.length : Math.max(6, Math.ceil(filtered.length * GUEST_CARD_RATIO));
+  // Role-based visibility: VIP/registered see all filtered, guest sees 30%.
+  const showAll = (userRole === 'mici_vip' || userRole === 'mici_registered');
+  const visibleCount = showAll ? filtered.length : Math.max(6, Math.ceil(filtered.length * GUEST_CARD_RATIO));
   const visible = filtered.slice(0, visibleCount);
   const hiddenCount = filtered.length - visibleCount;
 
   grid.innerHTML = visible.map(createCardHTML).join("");
   countEl.textContent = filtered.length;
 
-  // Show/hide login gate
+  // Show/hide login gate (only for guests — not logged in or inactive).
   if (loginGate) {
-    if (!isLoggedIn && hiddenCount > 0) {
+    if (!showAll && hiddenCount > 0) {
       loginGate.classList.add("is-visible");
       const countSpan = loginGate.querySelector(".login-gate__count");
       if (countSpan) countSpan.textContent = hiddenCount;
@@ -196,22 +217,15 @@ function renderGallery() {
   updateClearButton();
 }
 
-/** Simulate login — reveals all cards */
+/** Redirect to WP login to reveal all cards */
 function handleLoginGate() {
-  isLoggedIn = true;
-  renderGallery();
-  // Smooth scroll to newly revealed cards
-  const grid = document.getElementById("galleryGrid");
-  const lastVisibleCard = grid.children[Math.ceil(portfolioItems.length * GUEST_CARD_RATIO)];
-  if (lastVisibleCard) {
-    lastVisibleCard.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
+  window.location.href = window.miciLoginUrl || '/wp-login.php';
 }
 
 /** Shows/hides the clear-all button based on active filters */
 function updateClearButton() {
   const clearBtn = document.getElementById("clearFilters");
-  const hasActiveFilter = filters.industry !== "all" || filters.category.length > 0 || filters.style.length > 0;
+  const hasActiveFilter = filters.industry !== "all" || filters.category.length > 0 || filters.style.length > 0 || filters.premium;
   clearBtn.style.display = hasActiveFilter ? "flex" : "none";
 }
 
@@ -278,6 +292,7 @@ function initFilterGroup(containerId, filterKey) {
         filters.category = [];
         filters.style = [];
         filters.search = "";
+        filters.premium = false;
         document.getElementById("searchInput").value = "";
         document.querySelectorAll(".dropdown-panel__options .filter-pill").forEach((b) => {
           b.classList.toggle("filter-pill--active", b.dataset.filter === "all");
@@ -325,6 +340,7 @@ function initClearButton() {
     filters.category = [];
     filters.style = [];
     filters.search = "";
+    filters.premium = false;
 
     // Reset all pill groups
     document.querySelectorAll(".filter-pill-group .filter-pill, .dropdown-panel__options .filter-pill").forEach((btn) => {
@@ -368,6 +384,26 @@ function initSearch() {
   });
 }
 
+/** Premium filter pill — only shown to VIP users */
+function initPremiumPill() {
+  if (!canSeePremium) return;
+  const industryGroup = document.getElementById("industryFilters");
+  if (!industryGroup) return;
+
+  // Insert premium pill after the "others" pill.
+  const pill = document.createElement("button");
+  pill.className = "filter-pill filter-pill--premium";
+  pill.dataset.filter = "premium";
+  pill.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#c9a96e"><path d="M2.5 18.5l1.5-9 4.5 4.5L12 7l3.5 7 4.5-4.5 1.5 9h-19z"/><rect x="2.5" y="19" width="19" height="2" rx="1"/></svg> Premium';
+  industryGroup.appendChild(pill);
+
+  pill.addEventListener("click", () => {
+    filters.premium = !filters.premium;
+    pill.classList.toggle("filter-pill--active", filters.premium);
+    renderGallery();
+  });
+}
+
 /** Contact form handler */
 function initContactForm() {
   const form = document.getElementById("contactForm");
@@ -388,6 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initFilterGroup("styleFilters", "style");
   initDropdowns();
   initClearButton();
+  initPremiumPill();
   initSearch();
   initMobileMenu();
   initContactForm();

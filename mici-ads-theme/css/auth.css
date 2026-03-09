@@ -1,0 +1,265 @@
+/**
+ * Auth page styles — login, signup, account info.
+ * Matches Mici Ads design system (Montserrat, gold accents, dark tones).
+ */
+
+/* Page layout */
+.auth-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  background: var(--bg-primary, #0a0a0a);
+}
+
+.auth-page__container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-page__brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-page__logo {
+  margin-bottom: 1rem;
+  filter: brightness(1.1);
+}
+
+.auth-page__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--text-white, #fff);
+  margin: 0 0 0.5rem;
+}
+
+.auth-page__subtitle {
+  color: var(--gray-400, #9ca3af);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Auth container */
+.mici-auth {
+  background: var(--surface-dark, #1a1a1a);
+  border: 1px solid var(--border-dark, #2a2a2a);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* Tab switcher */
+.mici-auth__tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-dark, #2a2a2a);
+}
+
+.mici-auth__tab {
+  flex: 1;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--gray-400, #9ca3af);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  font-family: inherit;
+}
+
+.mici-auth__tab:hover {
+  color: var(--text-white, #fff);
+}
+
+.mici-auth__tab--active {
+  color: var(--gold-accent, #c9a96e);
+  border-bottom-color: var(--gold-accent, #c9a96e);
+}
+
+/* Forms */
+.mici-auth__form {
+  display: none;
+}
+
+.mici-auth__form--active {
+  display: block;
+}
+
+/* Fields */
+.mici-auth__field {
+  margin-bottom: 1rem;
+}
+
+.mici-auth__field label {
+  display: block;
+  color: var(--gray-300, #d1d5db);
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+}
+
+.mici-auth__field label .required {
+  color: var(--gold-accent, #c9a96e);
+}
+
+.mici-auth__field label .optional {
+  color: var(--gray-500, #6b7280);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.mici-auth__field input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-primary, #0a0a0a);
+  border: 1px solid var(--border-dark, #2a2a2a);
+  border-radius: 8px;
+  color: var(--text-white, #fff);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.mici-auth__field input:focus {
+  outline: none;
+  border-color: var(--gold-accent, #c9a96e);
+}
+
+.mici-auth__field input::placeholder {
+  color: var(--gray-600, #4b5563);
+}
+
+/* Submit button */
+.mici-auth__submit {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, var(--gold-accent, #c9a96e), #a17c4a);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-family: inherit;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+}
+
+.mici-auth__submit:hover {
+  opacity: 0.9;
+}
+
+.mici-auth__submit--outline {
+  background: transparent;
+  border: 1px solid var(--border-dark, #2a2a2a);
+  color: var(--gray-300, #d1d5db);
+}
+
+.mici-auth__submit--outline:hover {
+  border-color: var(--gray-400, #9ca3af);
+  color: #fff;
+  opacity: 1;
+}
+
+/* Forgot password link */
+.mici-auth__link {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.mici-auth__link a {
+  color: var(--gray-400, #9ca3af);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.mici-auth__link a:hover {
+  color: var(--gold-accent, #c9a96e);
+}
+
+/* Notices */
+.mici-auth__notice {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.mici-auth__notice p {
+  margin: 0.25rem 0;
+}
+
+.mici-auth__notice--success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+}
+
+.mici-auth__notice--error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+/* Logged-in state */
+.mici-auth--logged-in {
+  text-align: center;
+}
+
+.mici-auth__user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.mici-auth__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-accent, #c9a96e), #a17c4a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.mici-auth__user strong {
+  color: var(--text-white, #fff);
+  display: block;
+}
+
+.mici-auth__role-badge {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(201, 169, 110, 0.15);
+  color: var(--gold-accent, #c9a96e);
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 2rem 1rem;
+  }
+
+  .auth-page__title {
+    font-size: 1.3rem;
+  }
+
+  .mici-auth {
+    padding: 1.25rem;
+  }
+}

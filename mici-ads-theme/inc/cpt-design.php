@@ -73,6 +73,7 @@ add_action( 'add_meta_boxes', 'mici_add_design_meta_box' );
 function mici_render_design_meta_box( $post ) {
 	wp_nonce_field( 'mici_design_save', 'mici_design_nonce' );
 
+	$premium  = get_post_meta( $post->ID, '_design_premium', true );
 	$industry = get_post_meta( $post->ID, '_design_industry', true );
 	$category = get_post_meta( $post->ID, '_design_category', true );
 	$style    = get_post_meta( $post->ID, '_design_style', true );
@@ -103,6 +104,16 @@ function mici_render_design_meta_box( $post ) {
 
 	?>
 	<table class="form-table">
+		<tr>
+			<th><?php esc_html_e( 'Premium Card', 'mici-ads' ); ?></th>
+			<td>
+				<label>
+					<input type="checkbox" name="mici_premium" value="1" <?php checked( $premium, '1' ); ?>>
+					<?php esc_html_e( 'Mark as Premium (VIP-only)', 'mici-ads' ); ?>
+				</label>
+				<p class="description"><?php esc_html_e( 'Premium cards are only visible to VIP users and display a crown icon.', 'mici-ads' ); ?></p>
+			</td>
+		</tr>
 		<tr>
 			<th><?php esc_html_e( 'Industry', 'mici-ads' ); ?></th>
 			<td><?php mici_render_select( 'mici_industry', $industry, $industry_options ); ?></td>
@@ -176,6 +187,10 @@ function mici_save_design_meta( $post_id ) {
 	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
+
+	// Save premium flag (checkbox: present = '1', absent = '').
+	$premium_val = isset( $_POST['mici_premium'] ) ? '1' : '';
+	update_post_meta( $post_id, '_design_premium', $premium_val );
 
 	foreach ( array( 'industry', 'category', 'style', 'theme', 'logo', 'sub', 'detail' ) as $field ) {
 		$value = isset( $_POST[ 'mici_' . $field ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'mici_' . $field ] ) ) : '';

@@ -144,14 +144,22 @@ get_header();
           <span class="login-gate__count">0</span>
           <?php esc_html_e( 'mẫu thiết kế đang chờ bạn khám phá', 'mici-ads' ); ?>
         </p>
-        <button class="login-gate__btn" onclick="handleLoginGate()">
+        <?php
+        $auth_url = function_exists( 'mici_get_auth_page_url' ) ? mici_get_auth_page_url() : '';
+        $login_link  = $auth_url ? add_query_arg( 'tab', 'login', $auth_url ) : wp_login_url( get_permalink() );
+        $signup_link = $auth_url ? add_query_arg( 'tab', 'signup', $auth_url ) : wp_registration_url();
+        ?>
+        <a class="login-gate__btn" href="<?php echo esc_url( $login_link ); ?>">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
             <polyline points="10 17 15 12 10 7"/>
             <line x1="15" y1="12" x2="3" y2="12"/>
           </svg>
-          <?php esc_html_e( 'Đăng nhập ngay', 'mici-ads' ); ?>
-        </button>
+          <?php esc_html_e( 'Đăng nhập', 'mici-ads' ); ?>
+        </a>
+        <a class="login-gate__btn login-gate__btn--outline" href="<?php echo esc_url( $signup_link ); ?>">
+          <?php esc_html_e( 'Đăng ký miễn phí', 'mici-ads' ); ?>
+        </a>
         <p class="login-gate__sub"><?php esc_html_e( 'Miễn phí', 'mici-ads' ); ?> &bull; <?php esc_html_e( 'Không cần thẻ tín dụng', 'mici-ads' ); ?></p>
       </div>
     </div>
@@ -165,15 +173,5 @@ get_header();
     <div class="modal__content" id="modalContent"></div>
   </div>
 </div>
-
-<?php
-// Pass WP auth data to JS so main.js can use real login state and URL.
-$logged_in = is_user_logged_in();
-$login_url = wp_login_url( get_permalink() );
-?>
-<script>
-window.miciUserLoggedIn = <?php echo $logged_in ? 'true' : 'false'; ?>;
-window.miciLoginUrl = <?php echo wp_json_encode( $login_url ); ?>;
-</script>
 
 <?php get_footer(); ?>
