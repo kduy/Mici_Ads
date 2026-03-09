@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"customTemplates": [
+		{
+			"name": "page-auth",
+			"title": "Authentication",
+			"postTypes": [ "page" ]
+		},
+		{
+			"name": "page-templates",
+			"title": "Design Templates",
+			"postTypes": [ "page" ]
+		}
+	]
+}
