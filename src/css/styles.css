@@ -572,6 +572,9 @@ input, select, textarea { font-family: inherit; }
 .card-theme-other-2 { background: linear-gradient(145deg, #f8fafc, #e2e8f0); }
 .card-theme-other-3 { background: linear-gradient(145deg, #1e293b, #334155); color: #e2e8f0; }
 
+/* Photo-based card (replaces text card when image URL provided) */
+.gallery-card__photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 /* Card inner typography */
 .card-design { padding: var(--space-xl); text-align: center; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-sm); }
 .card-design__logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; line-height: 1.2; }

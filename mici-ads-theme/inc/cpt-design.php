@@ -37,7 +37,7 @@ function mici_register_cpt_design() {
 			'public'        => true,
 			'has_archive'   => true,
 			'menu_icon'     => 'dashicons-art',
-			'supports'      => array( 'title', 'custom-fields' ),
+			'supports'      => array( 'title', 'thumbnail', 'custom-fields' ),
 			'show_in_rest'  => true,
 			'rewrite'       => array( 'slug' => 'designs' ),
 			'menu_position' => 5,

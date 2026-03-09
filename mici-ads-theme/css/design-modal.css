@@ -1,5 +1,5 @@
 /**
- * Design detail modal styles - overlay, layout, details, similar designs.
+ * Design detail modal styles - overlay, layout, gallery, details, similar designs.
  */
 
 /* Overlay */
@@ -105,7 +105,7 @@
   transform: scale(1.5);
 }
 
-/* Thumbnail strip */
+/* Thumbnail strip (view modes) */
 .modal__thumbs { display: flex; gap: 0.5rem; }
 .modal__thumb {
   width: 68px;
@@ -134,7 +134,84 @@
 .modal__thumb--dark { filter: brightness(0.6); }
 .modal__thumb--detail { transform: scale(1.3); overflow: hidden; }
 
-/* Right panel - metadata */
+/* ─── Image Gallery (up to 30 images) ─── */
+.modal__gallery { width: 100%; }
+
+.modal__gallery-main {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: var(--gray-100);
+  margin-bottom: 1rem;
+}
+.modal__gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal__gallery-prev,
+.modal__gallery-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--gray-700);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition);
+  z-index: 2;
+}
+.modal__gallery-prev { left: 0.75rem; }
+.modal__gallery-next { right: 0.75rem; }
+.modal__gallery-prev:hover,
+.modal__gallery-next:hover {
+  background: var(--white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.modal__gallery-counter {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  z-index: 2;
+}
+.modal__gallery-thumbs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: thin;
+}
+.modal__gallery-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.5;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.modal__gallery-thumb--active { border-color: var(--gold-400); opacity: 1; }
+.modal__gallery-thumb:hover { opacity: 0.8; }
+
+/* ─── Right panel - metadata ─── */
 .modal__right {
   padding: 2rem;
   overflow-y: auto;
@@ -224,7 +301,7 @@
   margin: 0;
 }
 
-/* Similar designs section */
+/* ─── Similar designs section ─── */
 .modal__similar {
   padding: 1.5rem 2rem;
   border-top: 1px solid var(--gray-100);
@@ -254,6 +331,12 @@
   overflow: hidden;
   margin-bottom: 0.5rem;
 }
+.modal__sim-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .modal__sim-name {
   font-size: 0.75rem;
   color: var(--gray-500);
@@ -268,7 +351,7 @@
 .card-design--sm { transform: scale(0.65); }
 .card-design--xs { transform: scale(0.35); }
 
-/* Responsive */
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
   .modal__body { grid-template-columns: 1fr; }
   .modal__left { border-right: none; border-bottom: 1px solid var(--gray-100); }
@@ -276,4 +359,6 @@
   .modal__similar-grid { grid-template-columns: repeat(2, 1fr); }
   .modal-overlay { padding: 0.5rem; }
   .modal { margin: 0.5rem auto; }
+  .modal__gallery-prev,
+  .modal__gallery-next { width: 32px; height: 32px; font-size: 1.25rem; }
 }

@@ -84,7 +84,8 @@ const INDUSTRY_ICONS = {
   others: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>'
 };
 
-/** Creates the HTML for a single gallery card */
+/** Creates the HTML for a single gallery card.
+ *  If item.image is set, renders an actual photo; otherwise falls back to text-based card design. */
 function createCardHTML(item) {
   const industryTag = `gallery-card__tag--${item.industry}`;
   const industryLabel = INDUSTRY_LABELS[item.industry] || capitalize(item.industry);
@@ -94,16 +95,21 @@ function createCardHTML(item) {
     `<span class="gallery-card__bar-seg" style="background:${c};width:${widths[i]}%" title="${c}"></span>`
   ).join("");
 
-  return `
-    <div class="gallery-card" data-id="${item.id}" data-industry="${item.industry}" data-category="${item.category}" data-style="${item.style}">
-      <div class="gallery-card__image">
-        <div class="gallery-card__image-inner ${item.theme}">
-          <div class="card-design">
+  // Card inner: photo-based or text-based fallback
+  const cardInner = item.image
+    ? `<img src="${item.image}" alt="${item.name || item.logo}" class="gallery-card__photo" loading="lazy">`
+    : `<div class="card-design">
             <div class="card-design__logo">${item.logo}</div>
             <div class="card-design__divider"></div>
             <div class="card-design__sub">${item.sub}</div>
             <div class="card-design__detail">${item.detail}</div>
-          </div>
+          </div>`;
+
+  return `
+    <div class="gallery-card" data-id="${item.id}" data-industry="${item.industry}" data-category="${item.category}" data-style="${item.style}">
+      <div class="gallery-card__image">
+        <div class="gallery-card__image-inner ${item.image ? '' : item.theme}">
+          ${cardInner}
           <div class="gallery-card__overlay">
             <span class="gallery-card__overlay-btn">Xem thiết kế</span>
           </div>

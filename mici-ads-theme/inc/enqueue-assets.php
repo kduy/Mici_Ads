@@ -171,9 +171,27 @@ function mici_get_designs_data() {
 			$query->the_post();
 			$id = get_the_ID();
 
+			// Get featured image URL (used as card photo when available).
+			$thumb_url = get_the_post_thumbnail_url( $id, 'medium_large' );
+
+			// Get gallery image URLs (up to 30) for detail modal carousel.
+			$gallery_ids  = get_post_meta( $id, '_design_gallery', true );
+			$gallery_urls = array();
+			if ( $gallery_ids ) {
+				$ids_arr = array_filter( array_map( 'intval', explode( ',', $gallery_ids ) ) );
+				foreach ( array_slice( $ids_arr, 0, 30 ) as $att_id ) {
+					$url = wp_get_attachment_image_url( $att_id, 'large' );
+					if ( $url ) {
+						$gallery_urls[] = esc_url( $url );
+					}
+				}
+			}
+
 			$items[] = array(
 				'id'       => $id,
 				'name'     => get_the_title(),
+				'image'    => $thumb_url ? esc_url( $thumb_url ) : '',
+				'images'   => $gallery_urls,
 				'industry' => esc_html( get_post_meta( $id, '_design_industry', true ) ),
 				'category' => esc_html( get_post_meta( $id, '_design_category', true ) ),
 				'style'    => esc_html( get_post_meta( $id, '_design_style', true ) ),
