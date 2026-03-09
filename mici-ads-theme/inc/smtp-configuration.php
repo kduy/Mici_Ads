@@ -1,10 +1,16 @@
 <?php
 /**
- * Mici Ads Theme — SMTP Configuration via Environment Variables
+ * Mici Ads Theme — Email Delivery Configuration
  *
- * Hooks into PHPMailer to route wp_mail() through an SMTP server.
- * Required env vars: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS.
- * Optional: SMTP_FROM, SMTP_FROM_NAME, SMTP_SECURE (tls|ssl).
+ * Priority: Brevo HTTP API (BREVO_API_KEY) > SMTP (SMTP_HOST).
+ * Brevo bypasses blocked SMTP ports on Railway free/hobby tier.
+ *
+ * Env vars:
+ *   BREVO_API_KEY              — Brevo (Sendinblue) API key
+ *   MAIL_FROM                  — Sender email address
+ *   MAIL_FROM_NAME             — Sender display name (default: Mici Ads)
+ *   SMTP_HOST, SMTP_PORT,
+ *   SMTP_USER, SMTP_PASS       — Fallback SMTP credentials
  *
  * @package MiciAds
  */
@@ -12,32 +18,132 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Intercept wp_mail() and send via Brevo HTTP API when configured.
+ *
+ * Uses the `pre_wp_mail` filter (WP 5.7+). Returns non-null to
+ * short-circuit wp_mail() and prevent PHPMailer from running.
+ *
+ * @param null|bool $result Short-circuit return value.
+ * @param array     $atts   wp_mail() arguments.
+ * @return null|bool
+ */
+function mici_brevo_send_mail( $result, $atts ) {
+	$api_key = getenv( 'BREVO_API_KEY' );
+	if ( ! $api_key ) {
+		return null; // Fall through to default wp_mail / SMTP.
+	}
+
+	$to      = is_array( $atts['to'] ) ? $atts['to'] : array( $atts['to'] );
+	$subject = $atts['subject'] ?? '';
+	$message = $atts['message'] ?? '';
+	$headers = $atts['headers'] ?? array();
+
+	// Determine content type from headers.
+	$is_html = false;
+	if ( is_string( $headers ) ) {
+		$headers = explode( "\n", $headers );
+	}
+	foreach ( $headers as $header ) {
+		if ( stripos( $header, 'content-type' ) !== false && stripos( $header, 'text/html' ) !== false ) {
+			$is_html = true;
+		}
+	}
+
+	// Build recipients array.
+	$recipients = array();
+	foreach ( $to as $email ) {
+		$clean = trim( $email );
+		if ( preg_match( '/<([^>]+)>/', $clean, $m ) ) {
+			$clean = $m[1];
+		}
+		if ( is_email( $clean ) ) {
+			$recipients[] = array( 'email' => $clean );
+		}
+	}
+
+	if ( empty( $recipients ) ) {
+		return false;
+	}
+
+	$from_email = getenv( 'MAIL_FROM' ) ?: get_option( 'admin_email' );
+	$from_name  = getenv( 'MAIL_FROM_NAME' ) ?: 'Mici Ads';
+
+	$body = array(
+		'sender'  => array(
+			'name'  => $from_name,
+			'email' => $from_email,
+		),
+		'to'      => $recipients,
+		'subject' => $subject,
+	);
+
+	if ( $is_html ) {
+		$body['htmlContent'] = $message;
+	} else {
+		$body['textContent'] = $message;
+	}
+
+	$response = wp_remote_post(
+		'https://api.brevo.com/v3/smtp/email',
+		array(
+			'timeout' => 15,
+			'headers' => array(
+				'accept'       => 'application/json',
+				'content-type' => 'application/json',
+				'api-key'      => $api_key,
+			),
+			'body'    => wp_json_encode( $body ),
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		error_log( '[Mici Mail] Brevo error: ' . $response->get_error_message() );
+		return false;
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	if ( $code >= 200 && $code < 300 ) {
+		return true;
+	}
+
+	error_log( '[Mici Mail] Brevo HTTP ' . $code . ': ' . wp_remote_retrieve_body( $response ) );
+	return false;
+}
+add_filter( 'pre_wp_mail', 'mici_brevo_send_mail', 10, 2 );
+
+// -------------------------------------------------------------------------
+// SMTP fallback (when BREVO_API_KEY is absent but SMTP_HOST is set)
+// -------------------------------------------------------------------------
+
+/**
  * Configure PHPMailer to use SMTP when env vars are set.
  *
  * @param PHPMailer\PHPMailer\PHPMailer $phpmailer PHPMailer instance.
  */
 function mici_configure_smtp( $phpmailer ) {
+	// Skip if Brevo is active — mail won't reach PHPMailer.
+	if ( getenv( 'BREVO_API_KEY' ) ) {
+		return;
+	}
+
 	$host = getenv( 'SMTP_HOST' );
-	$port = getenv( 'SMTP_PORT' );
 	$user = getenv( 'SMTP_USER' );
 	$pass = getenv( 'SMTP_PASS' );
 
-	// Only configure if all required vars are present.
 	if ( ! $host || ! $user || ! $pass ) {
 		return;
 	}
 
 	$phpmailer->isSMTP();
 	$phpmailer->Host       = $host;
-	$phpmailer->Port       = $port ? (int) $port : 587;
+	$phpmailer->Port       = getenv( 'SMTP_PORT' ) ? (int) getenv( 'SMTP_PORT' ) : 587;
 	$phpmailer->SMTPAuth   = true;
 	$phpmailer->Username   = $user;
 	$phpmailer->Password   = $pass;
 	$phpmailer->SMTPSecure = getenv( 'SMTP_SECURE' ) ?: 'tls';
 
-	// Optional from address override.
-	$from      = getenv( 'SMTP_FROM' );
-	$from_name = getenv( 'SMTP_FROM_NAME' );
+	$from      = getenv( 'MAIL_FROM' );
+	$from_name = getenv( 'MAIL_FROM_NAME' );
 	if ( $from ) {
 		$phpmailer->From = $from;
 	}
@@ -53,11 +159,11 @@ add_action( 'phpmailer_init', 'mici_configure_smtp' );
  * @param string $email Default from email.
  * @return string
  */
-function mici_smtp_from_email( $email ) {
-	$from = getenv( 'SMTP_FROM' );
+function mici_mail_from_email( $email ) {
+	$from = getenv( 'MAIL_FROM' );
 	return $from ? $from : $email;
 }
-add_filter( 'wp_mail_from', 'mici_smtp_from_email' );
+add_filter( 'wp_mail_from', 'mici_mail_from_email' );
 
 /**
  * Override default WordPress from name.
@@ -65,8 +171,8 @@ add_filter( 'wp_mail_from', 'mici_smtp_from_email' );
  * @param string $name Default from name.
  * @return string
  */
-function mici_smtp_from_name( $name ) {
-	$from_name = getenv( 'SMTP_FROM_NAME' );
+function mici_mail_from_name( $name ) {
+	$from_name = getenv( 'MAIL_FROM_NAME' );
 	return $from_name ? $from_name : 'Mici Ads';
 }
-add_filter( 'wp_mail_from_name', 'mici_smtp_from_name' );
+add_filter( 'wp_mail_from_name', 'mici_mail_from_name' );
