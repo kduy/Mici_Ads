@@ -1,0 +1,200 @@
+/**
+ * Admin styles for Image Processing Tools meta box.
+ * Tabbed UI: compress, PDF→JPEG, watermark.
+ */
+
+/* Container */
+.mici-proc {
+	font-size: 13px;
+}
+
+/* Tab bar */
+.mici-proc__tabs {
+	display: flex;
+	gap: 0;
+	border-bottom: 1px solid #c3c4c7;
+	margin-bottom: 16px;
+}
+
+.mici-proc__tab {
+	padding: 8px 16px;
+	border: 1px solid transparent;
+	border-bottom: none;
+	background: none;
+	cursor: pointer;
+	color: #50575e;
+	font-size: 13px;
+	margin-bottom: -1px;
+	border-radius: 3px 3px 0 0;
+}
+
+.mici-proc__tab:hover {
+	color: #135e96;
+}
+
+.mici-proc__tab--active {
+	background: #fff;
+	border-color: #c3c4c7;
+	color: #1d2327;
+	font-weight: 600;
+}
+
+/* Panels */
+.mici-proc__panel {
+	display: none;
+}
+
+.mici-proc__panel--active {
+	display: block;
+}
+
+/* Source file picker */
+.mici-proc__source {
+	margin-bottom: 12px;
+}
+
+.mici-proc__filename {
+	display: inline-block;
+	margin-left: 8px;
+	color: #50575e;
+	font-style: italic;
+}
+
+.mici-proc__preview {
+	margin-top: 8px;
+}
+
+.mici-proc__preview img {
+	max-width: 160px;
+	max-height: 120px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	object-fit: contain;
+}
+
+/* Controls */
+.mici-proc__controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 14px;
+	align-items: center;
+}
+
+.mici-proc__controls label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	color: #1d2327;
+}
+
+.mici-proc__range {
+	width: 140px;
+}
+
+.mici-proc__range-val {
+	min-width: 36px;
+	text-align: right;
+	font-weight: 600;
+	color: #2271b1;
+}
+
+.mici-proc__number {
+	width: 70px;
+}
+
+.mici-proc__select {
+	min-width: 100px;
+}
+
+/* Run button */
+.mici-proc__run {
+	margin-bottom: 12px;
+}
+
+.mici-proc__run:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Status/result areas */
+.mici-proc__status {
+	margin-bottom: 8px;
+	color: #50575e;
+	font-style: italic;
+}
+
+.mici-proc__status--error {
+	color: #d63638;
+	font-style: normal;
+}
+
+.mici-proc__notice {
+	background: #fcf0f1;
+	border-left: 4px solid #d63638;
+	padding: 8px 12px;
+	margin-bottom: 12px;
+	color: #d63638;
+}
+
+/* Result cards */
+.mici-proc__result {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.mici-proc__result-card {
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	padding: 10px;
+	background: #f9f9f9;
+	max-width: 200px;
+	text-align: center;
+}
+
+.mici-proc__result-card img {
+	max-width: 160px;
+	max-height: 120px;
+	border-radius: 4px;
+	object-fit: contain;
+	display: block;
+	margin: 0 auto 8px;
+}
+
+.mici-proc__result-card .mici-proc__stats {
+	font-size: 11px;
+	color: #50575e;
+	margin-bottom: 6px;
+}
+
+.mici-proc__result-card .mici-proc__savings {
+	color: #00a32a;
+	font-weight: 600;
+}
+
+.mici-proc__result-card .button {
+	margin-top: 6px;
+}
+
+/* Custom watermark picker (hidden by default) */
+.mici-proc__wm-custom {
+	margin-top: 4px;
+}
+
+/* Spinner overlay */
+.mici-proc__spinner {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #c3c4c7;
+	border-top-color: #2271b1;
+	border-radius: 50%;
+	animation: mici-spin 0.6s linear infinite;
+	vertical-align: middle;
+	margin-right: 6px;
+}
+
+@keyframes mici-spin {
+	to { transform: rotate(360deg); }
+}

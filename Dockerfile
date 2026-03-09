@@ -6,6 +6,16 @@ RUN echo "upload_max_filesize = 64M" > /usr/local/etc/php/conf.d/uploads.ini \
  && echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/uploads.ini \
  && echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/uploads.ini
 
+# Install Imagick PHP extension + Ghostscript for image/PDF processing
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libmagickwand-dev ghostscript \
+ && pecl install imagick \
+ && docker-php-ext-enable imagick \
+ && rm -rf /var/lib/apt/lists/*
+
+# Allow Imagick to process PDFs (ImageMagick 6 blocks PDF by default)
+RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+
 # Copy custom theme
 COPY mici-ads-theme/ /var/www/html/wp-content/themes/mici-ads-theme/
 
