@@ -101,15 +101,42 @@ function mici_brevo_send_mail( $result, $atts ) {
 		return false;
 	}
 
-	$code = wp_remote_retrieve_response_code( $response );
+	$code         = wp_remote_retrieve_response_code( $response );
+	$response_body = wp_remote_retrieve_body( $response );
+
+	// Always log for diagnostics.
+	error_log( '[Mici Mail] Brevo HTTP ' . $code . ' → ' . $response_body );
+
 	if ( $code >= 200 && $code < 300 ) {
 		return true;
 	}
 
-	error_log( '[Mici Mail] Brevo HTTP ' . $code . ': ' . wp_remote_retrieve_body( $response ) );
 	return false;
 }
 add_filter( 'pre_wp_mail', 'mici_brevo_send_mail', 10, 2 );
+
+/**
+ * Diagnostic endpoint: ?mici_test_mail=1 (admin only).
+ * Sends a test email to the admin and outputs the result.
+ */
+function mici_test_mail_endpoint() {
+	if ( empty( $_GET['mici_test_mail'] ) || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	$to      = get_option( 'admin_email' );
+	$subject = 'Mici Ads — Test Email ' . gmdate( 'H:i:s' );
+	$message = 'If you receive this, email delivery via Brevo is working.';
+	$sent    = wp_mail( $to, $subject, $message );
+
+	header( 'Content-Type: text/plain; charset=UTF-8' );
+	echo 'wp_mail() returned: ' . ( $sent ? 'TRUE' : 'FALSE' ) . "\n";
+	echo 'Sent to: ' . $to . "\n";
+	echo 'BREVO_API_KEY set: ' . ( getenv( 'BREVO_API_KEY' ) ? 'yes (' . strlen( getenv( 'BREVO_API_KEY' ) ) . ' chars)' : 'NO' ) . "\n";
+	echo 'MAIL_FROM: ' . ( getenv( 'MAIL_FROM' ) ?: '(not set)' ) . "\n";
+	exit;
+}
+add_action( 'template_redirect', 'mici_test_mail_endpoint' );
 
 // -------------------------------------------------------------------------
 // SMTP fallback (when BREVO_API_KEY is absent but SMTP_HOST is set)
