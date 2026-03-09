@@ -24,3 +24,4 @@ require_once MICI_THEME_DIR . '/inc/migrate-designs.php';
 require_once MICI_THEME_DIR . '/inc/user-roles-and-capabilities.php';
 require_once MICI_THEME_DIR . '/inc/email-confirmation.php';
 require_once MICI_THEME_DIR . '/inc/auth-forms.php';
+require_once MICI_THEME_DIR . '/inc/smtp-configuration.php';
