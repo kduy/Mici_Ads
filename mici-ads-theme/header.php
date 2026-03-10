@@ -55,9 +55,9 @@
 				</a>
 			<?php endif; ?>
 
-			<a href="tel:+49123456789" class="header__nav-link header__nav-link--cta">+49 123 456 789</a>
-
 		</nav>
+
+		<a href="tel:+49123456789" class="header__nav-link header__nav-link--cta">+49 123 456 789</a>
 
 		<button class="header__menu-btn" aria-label="<?php esc_attr_e( 'Toggle menu', 'mici-ads' ); ?>">
 			<span></span><span></span><span></span>

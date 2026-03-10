@@ -640,9 +640,18 @@
 }
 
 @media (max-width: 768px) {
-  /* Header */
+  /* Header: hide pill nav on mobile, show via hamburger */
   .header__nav--pill { display: none; }
-  .header__nav-link--cta { display: none; }
+  .header__nav--pill.header__nav--open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--white); padding: var(--space-lg) var(--space-xl);
+    border-bottom: 1px solid var(--gray-200); box-shadow: var(--shadow-lg);
+    z-index: 100; border-radius: 0;
+  }
+  .header__nav--pill.header__nav--open .header__nav-link {
+    padding: var(--space-sm) 0; border-radius: 0;
+  }
 
   /* Hero */
   .l-hero { padding-top: calc(70px + var(--space-2xl)); }
