@@ -111,7 +111,10 @@ function mici_watermark_imagick( $src, $wm_path, $dest, $opacity, $position ) {
 		$target_w = (int) ( $img->getImageWidth() * 0.3 );
 		$wm->scaleImage( $target_w, 0 );
 
-		// Apply opacity via alpha channel.
+		// Ensure alpha channel exists, then apply opacity.
+		if ( ! $wm->getImageAlphaChannel() ) {
+			$wm->setImageAlphaChannel( Imagick::ALPHACHANNEL_SET );
+		}
 		$wm->evaluateImage( Imagick::EVALUATE_MULTIPLY, $opacity / 100, Imagick::CHANNEL_ALPHA );
 
 		$img_w = $img->getImageWidth();
