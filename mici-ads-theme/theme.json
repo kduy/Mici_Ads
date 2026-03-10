@@ -11,6 +11,11 @@
 			"name": "page-templates",
 			"title": "Design Templates",
 			"postTypes": [ "page" ]
+		},
+		{
+			"name": "page-profile",
+			"title": "Profile",
+			"postTypes": [ "page" ]
 		}
 	]
 }

@@ -51,9 +51,18 @@ function mici_enqueue_assets() {
 		return;
 	}
 
+	// --- Profile page ---
+	if ( is_page_template( 'page-profile.php' ) ) {
+		wp_enqueue_style( 'mici-auth', MICI_THEME_URI . '/css/auth.css', array( 'mici-styles' ), MICI_THEME_VERSION );
+		wp_enqueue_style( 'mici-profile', MICI_THEME_URI . '/css/profile.css', array( 'mici-auth' ), MICI_THEME_VERSION );
+		mici_enqueue_likes_script();
+		return;
+	}
+
 	// --- Templates page only ---
 	if ( is_page_template( 'page-templates.php' ) ) {
 		mici_enqueue_templates_page_assets();
+		mici_enqueue_likes_script();
 	}
 }
 add_action( 'wp_enqueue_scripts', 'mici_enqueue_assets' );
@@ -227,4 +236,31 @@ function mici_get_designs_data() {
 	}
 
 	return $items;
+}
+
+/**
+ * Enqueue likes script with localized data.
+ * Used on templates page and profile page.
+ */
+function mici_enqueue_likes_script() {
+	wp_enqueue_style( 'mici-profile', MICI_THEME_URI . '/css/profile.css', array( 'mici-styles' ), MICI_THEME_VERSION );
+
+	wp_enqueue_script(
+		'mici-profile-likes',
+		MICI_THEME_URI . '/js/profile-likes.js',
+		array(),
+		MICI_THEME_VERSION,
+		true
+	);
+
+	$liked_ids = function_exists( 'mici_get_user_liked_designs' ) ? mici_get_user_liked_designs() : array();
+	$auth_url  = function_exists( 'mici_get_auth_page_url' ) ? mici_get_auth_page_url() : '';
+
+	wp_localize_script( 'mici-profile-likes', 'miciLikes', array(
+		'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+		'nonce'    => wp_create_nonce( 'mici_like_design' ),
+		'likedIds' => $liked_ids,
+		'loggedIn' => is_user_logged_in(),
+		'loginUrl' => $auth_url ? $auth_url : wp_login_url(),
+	) );
 }

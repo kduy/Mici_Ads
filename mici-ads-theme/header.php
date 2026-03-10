@@ -45,9 +45,16 @@
 
 		</nav>
 
-		<a href="tel:+49123456789" class="header__nav-link header__nav-link--cta">
-			+49 123 456 789
-		</a>
+		<?php if ( is_user_logged_in() && function_exists( 'mici_get_profile_page_url' ) ) : ?>
+			<a href="<?php echo esc_url( mici_get_profile_page_url() ?: home_url( '/' ) ); ?>"
+				class="header__nav-link<?php echo is_page_template( 'page-profile.php' ) ? ' header__nav-link--active' : ''; ?>">
+				<?php esc_html_e( 'Tài khoản', 'mici-ads' ); ?>
+			</a>
+		<?php else : ?>
+			<a href="tel:+49123456789" class="header__nav-link header__nav-link--cta">
+				+49 123 456 789
+			</a>
+		<?php endif; ?>
 
 		<button class="header__menu-btn" aria-label="<?php esc_attr_e( 'Toggle menu', 'mici-ads' ); ?>">
 			<span></span><span></span><span></span>
