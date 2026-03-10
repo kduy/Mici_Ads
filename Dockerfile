@@ -14,6 +14,12 @@ RUN apt-get update \
 # Allow Imagick to process PDFs (ImageMagick 6 blocks PDF by default)
 RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 
+# Install ACF (Advanced Custom Fields) plugin for CMS content editing
+RUN curl -sL "https://downloads.wordpress.org/plugin/advanced-custom-fields.latest-stable.zip" \
+      -o /tmp/acf.zip \
+ && unzip -q /tmp/acf.zip -d /var/www/html/wp-content/plugins/ \
+ && rm /tmp/acf.zip
+
 # Copy custom theme
 COPY mici-ads-theme/ /var/www/html/wp-content/themes/mici-ads-theme/
 

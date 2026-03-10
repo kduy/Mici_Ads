@@ -125,3 +125,17 @@ function mici_ensure_required_pages() {
 	update_option( 'mici_pages_created_v160', true );
 }
 add_action( 'init', 'mici_ensure_required_pages' );
+
+/**
+ * Auto-activate ACF plugin if installed but not active.
+ */
+function mici_auto_activate_acf() {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	$acf_plugin = 'advanced-custom-fields/acf.php';
+	if ( file_exists( WP_PLUGIN_DIR . '/' . $acf_plugin ) && ! is_plugin_active( $acf_plugin ) ) {
+		activate_plugin( $acf_plugin );
+	}
+}
+add_action( 'admin_init', 'mici_auto_activate_acf' );
