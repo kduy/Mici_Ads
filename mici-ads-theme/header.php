@@ -52,10 +52,12 @@
 			</a>
 		<?php else : ?>
 			<a href="<?php echo esc_url( function_exists( 'mici_get_auth_page_url' ) && mici_get_auth_page_url() ? mici_get_auth_page_url() : wp_login_url() ); ?>"
-				class="header__nav-link header__nav-link--cta">
+				class="header__nav-link">
 				<?php esc_html_e( 'Đăng nhập', 'mici-ads' ); ?>
 			</a>
 		<?php endif; ?>
+
+		<a href="tel:+49123456789" class="header__nav-link header__nav-link--cta">+49 123 456 789</a>
 
 		<button class="header__menu-btn" aria-label="<?php esc_attr_e( 'Toggle menu', 'mici-ads' ); ?>">
 			<span></span><span></span><span></span>
