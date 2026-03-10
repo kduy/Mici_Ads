@@ -43,6 +43,18 @@ function mici_theme_setup() {
 add_action( 'after_setup_theme', 'mici_theme_setup' );
 
 /**
+ * Hide the WordPress admin bar for non-administrator users.
+ * Custom roles (mici_vip, mici_registered) should not see the admin bar.
+ *
+ * @param bool $show Whether to show the admin bar.
+ * @return bool
+ */
+function mici_hide_admin_bar_for_non_admins( $show ) {
+	return current_user_can( 'manage_options' ) ? $show : false;
+}
+add_filter( 'show_admin_bar', 'mici_hide_admin_bar_for_non_admins' );
+
+/**
  * Auto-create required pages (Auth, Profile) if they don't exist.
  * Runs once on init; uses option flag to skip repeat queries.
  */
