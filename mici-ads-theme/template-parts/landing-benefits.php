@@ -48,18 +48,18 @@ $default_benefits = [
 	],
 ];
 
-// Use ACF repeater if available.
+// ACF group fields 'benefit_1' through 'benefit_6'.
 $benefits = [];
-if ( function_exists( 'get_field' ) && have_rows( 'benefits' ) ) {
-	$i = 0;
-	while ( have_rows( 'benefits' ) ) {
-		the_row();
-		$benefits[] = [
-			'icon'  => get_sub_field( 'icon' ) ?: ( $icons[ $i ] ?? '' ),
-			'title' => get_sub_field( 'title' ) ?: '',
-			'desc'  => get_sub_field( 'description' ) ?: '',
-		];
-		$i++;
+if ( function_exists( 'get_field' ) ) {
+	for ( $i = 1; $i <= 6; $i++ ) {
+		$item = get_field( 'benefit_' . $i );
+		if ( ! empty( $item ) && is_array( $item ) && ! empty( $item['title'] ) ) {
+			$benefits[] = [
+				'icon'  => $icons[ $i - 1 ] ?? '',
+				'title' => $item['title'] ?? '',
+				'desc'  => $item['description'] ?? '',
+			];
+		}
 	}
 }
 

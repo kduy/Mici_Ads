@@ -35,21 +35,24 @@ $default_columns = [
 	],
 ];
 
-// ACF: 'portfolio_images' gallery field — auto-distribute across 3 columns.
+// ACF: 12 individual image fields — auto-distribute across 3 columns.
 $columns = [];
 if ( function_exists( 'get_field' ) ) {
-	$gallery = get_field( 'portfolio_images' );
-	if ( ! empty( $gallery ) && is_array( $gallery ) ) {
-		$columns = [ [], [], [] ];
-		foreach ( $gallery as $idx => $img ) {
-			$col_idx = $idx % 3;
+	$has_any = false;
+	$columns = [ [], [], [] ];
+	for ( $i = 1; $i <= 12; $i++ ) {
+		$img = get_field( 'portfolio_image_' . $i );
+		if ( ! empty( $img ) && is_array( $img ) ) {
+			$has_any  = true;
+			$col_idx  = ( $i - 1 ) % 3;
 			$columns[ $col_idx ][] = [
-				'url' => is_array( $img ) ? ( $img['sizes']['medium_large'] ?? $img['url'] ) : $img,
-				'alt' => is_array( $img ) ? ( $img['alt'] ?: '' ) : '',
+				'url' => $img['sizes']['medium_large'] ?? $img['url'],
+				'alt' => $img['alt'] ?: '',
 			];
 		}
-		// Remove empty columns.
-		$columns = array_filter( $columns );
+	}
+	if ( ! $has_any ) {
+		$columns = [];
 	}
 }
 if ( empty( $columns ) ) {

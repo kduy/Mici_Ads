@@ -47,18 +47,21 @@ $default_services = [
 	],
 ];
 
-// Use ACF repeater if available, otherwise fallback.
+// ACF group fields 'service_1' through 'service_4'.
 $services = [];
-if ( function_exists( 'get_field' ) && have_rows( 'services' ) ) {
-	while ( have_rows( 'services' ) ) {
-		the_row();
-		$services[] = [
-			'image_url'   => get_sub_field( 'image_url' ) ?: '',
-			'image_alt'   => get_sub_field( 'title' ) ?: '',
-			'title'       => get_sub_field( 'title' ) ?: '',
-			'description' => get_sub_field( 'description' ) ?: '',
-			'tags'        => array_map( 'trim', explode( ',', get_sub_field( 'tags' ) ?: '' ) ),
-		];
+if ( function_exists( 'get_field' ) ) {
+	for ( $i = 1; $i <= 4; $i++ ) {
+		$item = get_field( 'service_' . $i );
+		if ( ! empty( $item ) && is_array( $item ) && ! empty( $item['title'] ) ) {
+			$img = $item['image'] ?? null;
+			$services[] = [
+				'image_url'   => $img ? ( is_array( $img ) ? $img['url'] : $img ) : '',
+				'image_alt'   => $item['title'] ?? '',
+				'title'       => $item['title'] ?? '',
+				'description' => $item['description'] ?? '',
+				'tags'        => array_map( 'trim', explode( ',', $item['tags'] ?? '' ) ),
+			];
+		}
 	}
 }
 

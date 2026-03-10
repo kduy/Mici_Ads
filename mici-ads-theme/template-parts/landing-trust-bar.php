@@ -11,16 +11,16 @@
 $trust_text = function_exists( 'get_field' ) ? get_field( 'trust_text' ) : '';
 $trust_text = $trust_text ?: 'Được tin tưởng bởi các tiệm nail, nhà hàng và quán cafe trên toàn quốc';
 
-// ACF repeater 'trust_clients' — each row: name (text), logo (image, optional).
+// ACF textarea 'trust_clients_list' — one client name per line.
 $default_clients = [ 'Olivia Nails', 'Pho Ha Noi', 'BREW Coffee', 'Rosa Maria', 'Nail Luxury' ];
 
 $trust_clients = [];
-if ( function_exists( 'get_field' ) && have_rows( 'trust_clients' ) ) {
-	while ( have_rows( 'trust_clients' ) ) {
-		the_row();
-		$name = get_sub_field( 'name' );
-		if ( $name ) {
-			$trust_clients[] = $name;
+if ( function_exists( 'get_field' ) ) {
+	$raw = get_field( 'trust_clients_list' );
+	if ( $raw ) {
+		$lines = array_filter( array_map( 'trim', explode( "\n", $raw ) ) );
+		if ( ! empty( $lines ) ) {
+			$trust_clients = $lines;
 		}
 	}
 }

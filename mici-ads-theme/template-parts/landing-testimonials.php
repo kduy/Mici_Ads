@@ -45,18 +45,20 @@ $default_testimonials = [
 	],
 ];
 
-// Use ACF repeater if available.
+// ACF group fields 'testimonial_1' through 'testimonial_4'.
 $testimonials = [];
-if ( function_exists( 'get_field' ) && have_rows( 'testimonials' ) ) {
-	while ( have_rows( 'testimonials' ) ) {
-		the_row();
-		$testimonials[] = [
-			'quote'          => get_sub_field( 'quote' ) ?: '',
-			'name'           => get_sub_field( 'name' ) ?: '',
-			'role'           => get_sub_field( 'role' ) ?: '',
-			'avatar_initial' => get_sub_field( 'avatar_initial' ) ?: '',
-			'rating'         => (int) ( get_sub_field( 'rating' ) ?: 5 ),
-		];
+if ( function_exists( 'get_field' ) ) {
+	for ( $i = 1; $i <= 4; $i++ ) {
+		$item = get_field( 'testimonial_' . $i );
+		if ( ! empty( $item ) && is_array( $item ) && ! empty( $item['quote'] ) ) {
+			$testimonials[] = [
+				'quote'          => $item['quote'] ?? '',
+				'name'           => $item['name'] ?? '',
+				'role'           => $item['role'] ?? '',
+				'avatar_initial' => $item['avatar_initial'] ?? '',
+				'rating'         => (int) ( $item['rating'] ?? 5 ),
+			];
+		}
 	}
 }
 

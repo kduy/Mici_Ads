@@ -26,55 +26,37 @@ $cta_primary_url    = $cta_primary_url ?: '#contact';
 $cta_secondary_text = $cta_secondary_text ?: 'Xem mẫu thiết kế';
 $cta_secondary_url  = $cta_secondary_url ?: '#portfolio';
 
-// ACF repeater 'hero_gallery' — each row: image (image field), label, sublabel.
-// Fallback: hardcoded gallery items.
+// ACF group fields 'hero_item_1' through 'hero_item_4'.
+// Each group: image, label, sublabel, background, text_color.
 $default_gallery = [
-	[
-		'type'     => 'card',
-		'label'    => 'OLIVIA',
-		'sublabel' => 'Nail Art Salon',
-		'bg'       => 'linear-gradient(135deg, #1a1a2e, #16213e)',
-		'color'    => '#f4c2c2',
-	],
-	[
-		'type'      => 'image',
-		'image_url' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop',
-		'image_alt' => 'Menu design',
-	],
-	[
-		'type'      => 'image',
-		'image_url' => 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=300&fit=crop',
-		'image_alt' => 'Branding design',
-	],
-	[
-		'type'     => 'card',
-		'label'    => 'Rosa Maria',
-		'sublabel' => 'Filipino Restaurant',
-		'bg'       => 'linear-gradient(135deg, #fefae0, #f5f0e8)',
-		'color'    => 'var(--warm-800)',
-	],
+	[ 'type' => 'card',  'label' => 'OLIVIA',     'sublabel' => 'Nail Art Salon',      'bg' => 'linear-gradient(135deg, #1a1a2e, #16213e)', 'color' => '#f4c2c2' ],
+	[ 'type' => 'image', 'image_url' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop', 'image_alt' => 'Menu design' ],
+	[ 'type' => 'image', 'image_url' => 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=300&fit=crop', 'image_alt' => 'Branding design' ],
+	[ 'type' => 'card',  'label' => 'Rosa Maria',  'sublabel' => 'Filipino Restaurant', 'bg' => 'linear-gradient(135deg, #fefae0, #f5f0e8)', 'color' => 'var(--warm-800)' ],
 ];
 
 $hero_gallery = [];
-if ( function_exists( 'get_field' ) && have_rows( 'hero_gallery' ) ) {
-	while ( have_rows( 'hero_gallery' ) ) {
-		the_row();
-		$img   = get_sub_field( 'image' );
-		$label = get_sub_field( 'label' );
-		if ( $img ) {
-			$hero_gallery[] = [
-				'type'      => 'image',
-				'image_url' => esc_url( is_array( $img ) ? $img['url'] : $img ),
-				'image_alt' => $label ?: ( is_array( $img ) ? ( $img['alt'] ?: '' ) : '' ),
-			];
-		} elseif ( $label ) {
-			$hero_gallery[] = [
-				'type'     => 'card',
-				'label'    => $label,
-				'sublabel' => get_sub_field( 'sublabel' ) ?: '',
-				'bg'       => get_sub_field( 'background' ) ?: 'linear-gradient(135deg, #1a1a2e, #16213e)',
-				'color'    => get_sub_field( 'text_color' ) ?: '#f4c2c2',
-			];
+if ( function_exists( 'get_field' ) ) {
+	for ( $i = 1; $i <= 4; $i++ ) {
+		$item = get_field( 'hero_item_' . $i );
+		if ( ! empty( $item ) && is_array( $item ) ) {
+			$img   = $item['image'] ?? null;
+			$label = $item['label'] ?? '';
+			if ( $img ) {
+				$hero_gallery[] = [
+					'type'      => 'image',
+					'image_url' => esc_url( is_array( $img ) ? $img['url'] : $img ),
+					'image_alt' => $label ?: ( is_array( $img ) ? ( $img['alt'] ?: '' ) : '' ),
+				];
+			} elseif ( $label ) {
+				$hero_gallery[] = [
+					'type'     => 'card',
+					'label'    => $label,
+					'sublabel' => $item['sublabel'] ?? '',
+					'bg'       => $item['background'] ?? 'linear-gradient(135deg, #1a1a2e, #16213e)',
+					'color'    => $item['text_color'] ?? '#f4c2c2',
+				];
+			}
 		}
 	}
 }

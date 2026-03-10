@@ -34,15 +34,17 @@ $default_faqs = [
 	],
 ];
 
-// Use ACF repeater if available.
+// ACF group fields 'faq_1' through 'faq_8'.
 $faqs = [];
-if ( function_exists( 'get_field' ) && have_rows( 'faq_items' ) ) {
-	while ( have_rows( 'faq_items' ) ) {
-		the_row();
-		$faqs[] = [
-			'question' => get_sub_field( 'question' ) ?: '',
-			'answer'   => get_sub_field( 'answer' ) ?: '',
-		];
+if ( function_exists( 'get_field' ) ) {
+	for ( $i = 1; $i <= 8; $i++ ) {
+		$item = get_field( 'faq_' . $i );
+		if ( ! empty( $item ) && is_array( $item ) && ! empty( $item['question'] ) ) {
+			$faqs[] = [
+				'question' => $item['question'] ?? '',
+				'answer'   => $item['answer'] ?? '',
+			];
+		}
 	}
 }
 
