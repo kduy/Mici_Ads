@@ -1,16 +1,29 @@
 /**
  * Profile page + Like button styles.
  * Reuses .mici-auth base classes from auth.css.
+ * Design tokens: dark #0a0a0a, surface #1a1a1a, gold #c9a96e, border #2a2a2a.
  */
 
-/* Profile header with avatar + role */
+/* ---- Profile page wider container ---- */
+.auth-page--profile .auth-page__container {
+  max-width: 560px;
+}
+
+/* Profile header — larger avatar, bolder presence */
 .mici-profile__header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mici-profile__header .mici-auth__avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 1.35rem;
+  flex-shrink: 0;
 }
 
 /* Profile form spacing */
@@ -22,7 +35,8 @@
 .mici-profile__pending-email {
   font-size: 12px;
   color: #d4a853;
-  margin-top: 4px;
+  margin-top: 6px;
+  line-height: 1.4;
 }
 
 /* Profile action links */
@@ -30,7 +44,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .mici-profile__link {
@@ -38,25 +52,59 @@
   color: #d4a853;
   font-size: 13px;
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .mici-profile__link:hover {
+  color: #e2be6f;
   text-decoration: underline;
 }
 
-/* Empty state */
-.mici-profile__empty {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.5);
-  padding: 40px 0;
-  font-size: 14px;
+/* Tab focus states (Accessibility — visible focus rings) */
+.mici-auth__tab:focus-visible {
+  outline: 2px solid var(--gold-accent, #c9a96e);
+  outline-offset: -2px;
+  border-radius: 4px;
 }
 
-/* Liked designs grid */
+/* ---- Empty state ---- */
+.mici-profile__empty {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 48px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.mici-profile__empty-icon {
+  display: block;
+  margin: 0 auto 12px;
+  opacity: 0.3;
+}
+
+.mici-profile__empty-cta {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(135deg, var(--gold-accent, #c9a96e), #a17c4a);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.mici-profile__empty-cta:hover {
+  opacity: 0.85;
+  color: #fff;
+}
+
+/* ---- Liked designs grid ---- */
 .mici-profile__liked-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
   padding: 8px 0;
 }
 
@@ -65,7 +113,49 @@
   border-radius: 10px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.04);
-  transition: opacity 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+  animation: mici-fadeInUp 0.35s ease both;
+}
+
+.mici-profile__liked-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.mici-profile__liked-card:focus-within {
+  outline: 2px solid var(--gold-accent, #c9a96e);
+  outline-offset: 2px;
+}
+
+/* Staggered entrance animation */
+.mici-profile__liked-card:nth-child(1) { animation-delay: 0s; }
+.mici-profile__liked-card:nth-child(2) { animation-delay: 0.05s; }
+.mici-profile__liked-card:nth-child(3) { animation-delay: 0.1s; }
+.mici-profile__liked-card:nth-child(4) { animation-delay: 0.15s; }
+.mici-profile__liked-card:nth-child(5) { animation-delay: 0.2s; }
+.mici-profile__liked-card:nth-child(6) { animation-delay: 0.25s; }
+
+@keyframes mici-fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mici-profile__liked-card {
+    animation: none;
+    transition: opacity 0.3s ease;
+  }
+  .mici-profile__liked-card:hover {
+    transform: none;
+  }
 }
 
 .mici-profile__liked-card img {
@@ -83,38 +173,66 @@
   justify-content: center;
   font-size: 32px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.04);
 }
 
 .mici-profile__liked-title {
   display: block;
-  padding: 6px 8px;
-  font-size: 11px;
+  padding: 8px 10px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* Unlike button — 36px with adequate touch target via padding */
 .mici-profile__unlike-btn {
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.55);
   color: #e53e3e;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, background 0.2s;
+  padding: 0;
+  /* Expand touch target to 44px via pseudo-element */
+}
+
+.mici-profile__unlike-btn::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+}
+
+.mici-profile__unlike-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 
 .mici-profile__liked-card:hover .mici-profile__unlike-btn {
   opacity: 1;
+}
+
+.mici-profile__unlike-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.mici-profile__unlike-btn:focus-visible {
+  opacity: 1;
+  outline: 2px solid #e53e3e;
+  outline-offset: 2px;
 }
 
 /* ---- Like button on gallery cards ---- */
@@ -123,32 +241,64 @@
   top: 8px;
   right: 8px;
   z-index: 5;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.45);
   color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: color 0.2s, transform 0.2s, background 0.2s;
-  line-height: 1;
+  transition: color 0.2s, background 0.2s;
   padding: 0;
+  line-height: 1;
+}
+
+/* Expand touch target to 44px via pseudo-element */
+.mici-like-btn::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+}
+
+.mici-like-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: fill 0.2s, stroke 0.2s;
 }
 
 .mici-like-btn:hover {
   background: rgba(0, 0, 0, 0.65);
   color: #fff;
-  transform: scale(1.15);
 }
 
 .mici-like-btn--liked {
   color: #e53e3e;
-  text-shadow: 0 0 6px rgba(229, 62, 62, 0.4);
+}
+
+.mici-like-btn--liked svg {
+  fill: #e53e3e;
+  stroke: #e53e3e;
 }
 
 .mici-like-btn--liked:hover {
   color: #c53030;
+}
+
+.mici-like-btn--liked:hover svg {
+  fill: #c53030;
+  stroke: #c53030;
+}
+
+.mici-like-btn:focus-visible {
+  outline: 2px solid var(--gold-accent, #c9a96e);
+  outline-offset: 2px;
 }
 
 /* Forgot/reset password form */
@@ -169,22 +319,39 @@
   font-size: 13px;
   margin-top: 12px;
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .mici-auth__back-link:hover {
   color: #d4a853;
 }
 
-/* Responsive */
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .auth-page--profile .auth-page__container {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
   .mici-profile__liked-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 10px;
+  }
+
+  .mici-profile__header .mici-auth__avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
   }
 
   .mici-like-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .mici-like-btn svg {
+    width: 16px;
+    height: 16px;
   }
 }

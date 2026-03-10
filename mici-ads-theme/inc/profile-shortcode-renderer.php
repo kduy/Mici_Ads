@@ -4,7 +4,7 @@
  *
  * Renders [mici_profile] shortcode with tabbed UI:
  * - Info tab: edit name, email, phone
- * - Liked Designs tab: grid of liked designs
+ * - Liked Designs tab: grid of liked designs with SVG heart icons
  *
  * @package MiciAds
  */
@@ -40,7 +40,7 @@ function mici_profile_shortcode() {
 	);
 	$role_label = $role_labels[ $role ] ?? __( 'Thành viên', 'mici-ads' );
 
-	$tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'info';
+	$tab        = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'info';
 	$logout_url = wp_logout_url( mici_get_auth_page_url() ?: home_url( '/' ) );
 
 	ob_start();
@@ -99,7 +99,8 @@ function mici_profile_shortcode() {
 
 		<!-- Likes tab -->
 		<div class="mici-auth__form mici-profile__likes<?php echo 'likes' === $tab ? ' mici-auth__form--active' : ''; ?>"
-			id="profileLikes" data-user-id="<?php echo esc_attr( $user_id ); ?>">
+			id="profileLikes" data-user-id="<?php echo esc_attr( $user_id ); ?>"
+			data-templates-url="<?php echo esc_url( mici_get_templates_page_url() ); ?>">
 			<?php mici_render_liked_designs( $user_id ); ?>
 		</div>
 
@@ -114,10 +115,10 @@ function mici_profile_shortcode() {
 	</div>
 
 	<script>
-	document.querySelectorAll('.mici-auth__tab').forEach(function(t){
+	document.querySelectorAll('.mici-profile .mici-auth__tab').forEach(function(t){
 		t.addEventListener('click',function(){
-			document.querySelectorAll('.mici-auth__tab').forEach(function(b){b.classList.remove('mici-auth__tab--active');});
-			document.querySelectorAll('.mici-auth__form, .mici-profile__likes').forEach(function(f){f.classList.remove('mici-auth__form--active');});
+			document.querySelectorAll('.mici-profile .mici-auth__tab').forEach(function(b){b.classList.remove('mici-auth__tab--active');});
+			document.querySelectorAll('.mici-profile .mici-auth__form, .mici-profile .mici-profile__likes').forEach(function(f){f.classList.remove('mici-auth__form--active');});
 			this.classList.add('mici-auth__tab--active');
 			var target=this.dataset.tab==='info'?'profileInfoForm':'profileLikes';
 			document.getElementById(target).classList.add('mici-auth__form--active');
@@ -159,7 +160,7 @@ function mici_render_profile_notices( $user_id ) {
 }
 
 /**
- * Render liked designs grid.
+ * Render liked designs grid with SVG unlike buttons.
  *
  * @param int $user_id User ID.
  */
@@ -168,7 +169,7 @@ function mici_render_liked_designs( $user_id ) {
 	$liked_ids = is_array( $liked_ids ) ? $liked_ids : array();
 
 	if ( empty( $liked_ids ) ) {
-		echo '<p class="mici-profile__empty">' . esc_html__( 'Bạn chưa thích mẫu thiết kế nào.', 'mici-ads' ) . '</p>';
+		mici_render_empty_likes_state();
 		return;
 	}
 
@@ -181,9 +182,12 @@ function mici_render_liked_designs( $user_id ) {
 	) );
 
 	if ( ! $query->have_posts() ) {
-		echo '<p class="mici-profile__empty">' . esc_html__( 'Bạn chưa thích mẫu thiết kế nào.', 'mici-ads' ) . '</p>';
+		mici_render_empty_likes_state();
 		return;
 	}
+
+	// SVG heart icon for unlike button.
+	$heart_svg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
 
 	echo '<div class="mici-profile__liked-grid">';
 	while ( $query->have_posts() ) {
@@ -199,10 +203,29 @@ function mici_render_liked_designs( $user_id ) {
 			<?php endif; ?>
 			<span class="mici-profile__liked-title"><?php echo esc_html( $title ); ?></span>
 			<button type="button" class="mici-profile__unlike-btn" data-design-id="<?php echo esc_attr( get_the_ID() ); ?>"
-				title="<?php esc_attr_e( 'Bỏ thích', 'mici-ads' ); ?>">♥</button>
+				aria-label="<?php esc_attr_e( 'Bỏ thích', 'mici-ads' ); ?>"><?php echo $heart_svg; // phpcs:ignore ?></button>
 		</div>
 		<?php
 	}
 	echo '</div>';
 	wp_reset_postdata();
+}
+
+/**
+ * Render empty state for liked designs with CTA.
+ */
+function mici_render_empty_likes_state() {
+	$templates_url = mici_get_templates_page_url();
+	?>
+	<div class="mici-profile__empty">
+		<svg class="mici-profile__empty-icon" width="48" height="48" viewBox="0 0 24 24"
+			fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5">
+			<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+		</svg>
+		<p><?php esc_html_e( 'Bạn chưa thích mẫu thiết kế nào.', 'mici-ads' ); ?></p>
+		<a href="<?php echo esc_url( $templates_url ); ?>" class="mici-profile__empty-cta">
+			<?php esc_html_e( 'Khám phá mẫu thiết kế', 'mici-ads' ); ?>
+		</a>
+	</div>
+	<?php
 }

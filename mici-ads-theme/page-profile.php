@@ -11,7 +11,7 @@
 get_header();
 ?>
 
-<section class="auth-page">
+<section class="auth-page auth-page--profile">
   <div class="auth-page__container">
     <div class="auth-page__brand">
       <img src="<?php echo esc_url( MICI_THEME_URI . '/images/logo-mici-ads.svg' ); ?>"
