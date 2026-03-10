@@ -63,6 +63,8 @@ function mici_profile_shortcode() {
 				data-tab="info"><?php esc_html_e( 'Thông tin', 'mici-ads' ); ?></button>
 			<button class="mici-auth__tab<?php echo 'likes' === $tab ? ' mici-auth__tab--active' : ''; ?>"
 				data-tab="likes"><?php esc_html_e( 'Yêu thích', 'mici-ads' ); ?></button>
+			<button class="mici-auth__tab<?php echo 'password' === $tab ? ' mici-auth__tab--active' : ''; ?>"
+				data-tab="password"><?php esc_html_e( 'Mật khẩu', 'mici-ads' ); ?></button>
 		</div>
 
 		<!-- Info tab -->
@@ -104,10 +106,47 @@ function mici_profile_shortcode() {
 			<?php mici_render_liked_designs( $user_id ); ?>
 		</div>
 
-		<!-- Forgot password link + logout -->
+		<!-- Password change tab -->
+		<form class="mici-auth__form mici-profile__form<?php echo 'password' === $tab ? ' mici-auth__form--active' : ''; ?>"
+			id="profilePasswordForm" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<input type="hidden" name="action" value="mici_change_password">
+			<?php wp_nonce_field( 'mici_change_password', 'mici_chgpwd_nonce' ); ?>
+
+			<?php if ( ! empty( $_GET['mici_password_changed'] ) ) : ?>
+				<div class="mici-auth__notice mici-auth__notice--success">
+					<p><?php esc_html_e( 'Mật khẩu đã được thay đổi thành công!', 'mici-ads' ); ?></p>
+				</div>
+			<?php endif; ?>
+
+			<div class="mici-auth__field">
+				<label for="mici-old-pw"><?php esc_html_e( 'Mật khẩu hiện tại', 'mici-ads' ); ?></label>
+				<input type="password" id="mici-old-pw" name="mici_old_password" required
+					autocomplete="current-password" placeholder="••••••">
+			</div>
+
+			<div class="mici-auth__field">
+				<label for="mici-new-pw"><?php esc_html_e( 'Mật khẩu mới', 'mici-ads' ); ?></label>
+				<input type="password" id="mici-new-pw" name="mici_new_password" required minlength="6"
+					autocomplete="new-password" placeholder="Ít nhất 6 ký tự">
+			</div>
+
+			<div class="mici-auth__field">
+				<label for="mici-confirm-pw"><?php esc_html_e( 'Xác nhận mật khẩu mới', 'mici-ads' ); ?></label>
+				<input type="password" id="mici-confirm-pw" name="mici_confirm_password" required minlength="6"
+					autocomplete="new-password" placeholder="Nhập lại mật khẩu mới">
+			</div>
+
+			<button type="submit" class="mici-auth__submit"><?php esc_html_e( 'Đổi mật khẩu', 'mici-ads' ); ?></button>
+
+			<p class="mici-auth__link" style="margin-top:12px;">
+				<a href="<?php echo esc_url( add_query_arg( 'tab', 'forgot', mici_get_auth_page_url() ?: home_url( '/' ) ) ); ?>">
+					<?php esc_html_e( 'Quên mật khẩu?', 'mici-ads' ); ?>
+				</a>
+			</p>
+		</form>
+
+		<!-- Logout -->
 		<div class="mici-profile__actions">
-			<a href="<?php echo esc_url( add_query_arg( 'tab', 'forgot', mici_get_auth_page_url() ?: home_url( '/' ) ) ); ?>"
-				class="mici-profile__link"><?php esc_html_e( 'Đổi mật khẩu', 'mici-ads' ); ?></a>
 			<a href="<?php echo esc_url( $logout_url ); ?>" class="mici-auth__submit mici-auth__submit--outline">
 				<?php esc_html_e( 'Đăng xuất', 'mici-ads' ); ?>
 			</a>
@@ -120,8 +159,9 @@ function mici_profile_shortcode() {
 			document.querySelectorAll('.mici-profile .mici-auth__tab').forEach(function(b){b.classList.remove('mici-auth__tab--active');});
 			document.querySelectorAll('.mici-profile .mici-auth__form, .mici-profile .mici-profile__likes').forEach(function(f){f.classList.remove('mici-auth__form--active');});
 			this.classList.add('mici-auth__tab--active');
-			var target=this.dataset.tab==='info'?'profileInfoForm':'profileLikes';
-			document.getElementById(target).classList.add('mici-auth__form--active');
+			var map={info:'profileInfoForm',likes:'profileLikes',password:'profilePasswordForm'};
+			var el=document.getElementById(map[this.dataset.tab]);
+			if(el) el.classList.add('mici-auth__form--active');
 		});
 	});
 	</script>
@@ -146,6 +186,10 @@ function mici_render_profile_notices( $user_id ) {
 
 	if ( ! empty( $_GET['mici_email_confirmed'] ) ) {
 		echo '<div class="mici-auth__notice mici-auth__notice--success"><p>' . esc_html__( 'Email đã được cập nhật thành công!', 'mici-ads' ) . '</p></div>';
+	}
+
+	if ( ! empty( $_GET['mici_password_changed'] ) ) {
+		echo '<div class="mici-auth__notice mici-auth__notice--success"><p>' . esc_html__( 'Mật khẩu đã được thay đổi thành công!', 'mici-ads' ) . '</p></div>';
 	}
 
 	$errors = get_transient( 'mici_profile_errors_' . $user_id );

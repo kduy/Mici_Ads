@@ -143,6 +143,64 @@ function mici_handle_profile_update() {
 }
 add_action( 'admin_post_mici_update_profile', 'mici_handle_profile_update' );
 
+// -------------------------------------------------------------------------
+// POST handler: change password (requires old password)
+// -------------------------------------------------------------------------
+
+/**
+ * Handle change password form submission (PRG pattern).
+ * Verifies old password before allowing the change.
+ */
+function mici_handle_change_password() {
+	if ( ! isset( $_POST['mici_chgpwd_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['mici_chgpwd_nonce'] ) ), 'mici_change_password' ) ) {
+		wp_die( __( 'Phiên làm việc hết hạn.', 'mici-ads' ) );
+	}
+
+	$user          = wp_get_current_user();
+	$user_id       = $user->ID;
+	$redirect_base = mici_get_profile_page_url() ?: home_url( '/' );
+
+	$old_pw  = isset( $_POST['mici_old_password'] ) ? $_POST['mici_old_password'] : ''; // phpcs:ignore
+	$new_pw  = isset( $_POST['mici_new_password'] ) ? $_POST['mici_new_password'] : ''; // phpcs:ignore
+	$confirm = isset( $_POST['mici_confirm_password'] ) ? $_POST['mici_confirm_password'] : ''; // phpcs:ignore
+
+	$errors = array();
+
+	// Verify old password.
+	if ( empty( $old_pw ) || ! wp_check_password( $old_pw, $user->user_pass, $user_id ) ) {
+		$errors[] = __( 'Mật khẩu hiện tại không đúng.', 'mici-ads' );
+	}
+
+	if ( empty( $new_pw ) || strlen( $new_pw ) < 6 ) {
+		$errors[] = __( 'Mật khẩu mới phải có ít nhất 6 ký tự.', 'mici-ads' );
+	}
+
+	if ( $new_pw !== $confirm ) {
+		$errors[] = __( 'Xác nhận mật khẩu không khớp.', 'mici-ads' );
+	}
+
+	if ( ! empty( $errors ) ) {
+		set_transient( 'mici_profile_errors_' . $user_id, $errors, 60 );
+		wp_safe_redirect( add_query_arg( 'tab', 'password', $redirect_base ) );
+		exit;
+	}
+
+	// Set new password (this logs out all other sessions).
+	wp_set_password( $new_pw, $user_id );
+
+	// Re-login the user so they stay authenticated.
+	wp_set_current_user( $user_id );
+	wp_set_auth_cookie( $user_id, true );
+
+	wp_safe_redirect( add_query_arg( array(
+		'tab'                   => 'password',
+		'mici_password_changed' => '1',
+	), $redirect_base ) );
+	exit;
+}
+add_action( 'admin_post_mici_change_password', 'mici_handle_change_password' );
+
 /**
  * Send confirmation email to the new email address.
  *
