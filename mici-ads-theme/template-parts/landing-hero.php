@@ -26,6 +26,62 @@ $cta_primary_url    = $cta_primary_url ?: '#contact';
 $cta_secondary_text = $cta_secondary_text ?: 'Xem mẫu thiết kế';
 $cta_secondary_url  = $cta_secondary_url ?: '#portfolio';
 
+// ACF repeater 'hero_gallery' — each row: image (image field), label, sublabel.
+// Fallback: hardcoded gallery items.
+$default_gallery = [
+	[
+		'type'     => 'card',
+		'label'    => 'OLIVIA',
+		'sublabel' => 'Nail Art Salon',
+		'bg'       => 'linear-gradient(135deg, #1a1a2e, #16213e)',
+		'color'    => '#f4c2c2',
+	],
+	[
+		'type'      => 'image',
+		'image_url' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop',
+		'image_alt' => 'Menu design',
+	],
+	[
+		'type'      => 'image',
+		'image_url' => 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=300&fit=crop',
+		'image_alt' => 'Branding design',
+	],
+	[
+		'type'     => 'card',
+		'label'    => 'Rosa Maria',
+		'sublabel' => 'Filipino Restaurant',
+		'bg'       => 'linear-gradient(135deg, #fefae0, #f5f0e8)',
+		'color'    => 'var(--warm-800)',
+	],
+];
+
+$hero_gallery = [];
+if ( function_exists( 'get_field' ) && have_rows( 'hero_gallery' ) ) {
+	while ( have_rows( 'hero_gallery' ) ) {
+		the_row();
+		$img   = get_sub_field( 'image' );
+		$label = get_sub_field( 'label' );
+		if ( $img ) {
+			$hero_gallery[] = [
+				'type'      => 'image',
+				'image_url' => esc_url( is_array( $img ) ? $img['url'] : $img ),
+				'image_alt' => $label ?: ( is_array( $img ) ? ( $img['alt'] ?: '' ) : '' ),
+			];
+		} elseif ( $label ) {
+			$hero_gallery[] = [
+				'type'     => 'card',
+				'label'    => $label,
+				'sublabel' => get_sub_field( 'sublabel' ) ?: '',
+				'bg'       => get_sub_field( 'background' ) ?: 'linear-gradient(135deg, #1a1a2e, #16213e)',
+				'color'    => get_sub_field( 'text_color' ) ?: '#f4c2c2',
+			];
+		}
+	}
+}
+if ( empty( $hero_gallery ) ) {
+	$hero_gallery = $default_gallery;
+}
+
 // SVG star helper — reused 5x.
 $star_svg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="var(--gold-400)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 ?>
@@ -63,27 +119,23 @@ $star_svg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="var(--gold-40
     </div>
   </div>
 
-  <!-- Portfolio preview row -->
+  <!-- Portfolio preview row (ACF: hero_gallery repeater) -->
   <div class="l-hero__gallery">
     <div class="l-hero__gallery-track">
-      <div class="l-hero__gallery-item">
-        <div class="l-hero__gallery-card" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
-          <span style="color: #f4c2c2; font-family: var(--font-serif); font-size: 1.4rem;">OLIVIA</span>
-          <small style="color: #999; display: block; margin-top: 4px;">Nail Art Salon</small>
+      <?php foreach ( $hero_gallery as $item ) : ?>
+        <div class="l-hero__gallery-item">
+          <?php if ( 'card' === $item['type'] ) : ?>
+            <div class="l-hero__gallery-card" style="background: <?php echo esc_attr( $item['bg'] ); ?>;">
+              <span style="color: <?php echo esc_attr( $item['color'] ); ?>; font-family: var(--font-serif); font-size: 1.4rem;"><?php echo esc_html( $item['label'] ); ?></span>
+              <?php if ( ! empty( $item['sublabel'] ) ) : ?>
+                <small style="color: #999; display: block; margin-top: 4px;"><?php echo esc_html( $item['sublabel'] ); ?></small>
+              <?php endif; ?>
+            </div>
+          <?php else : ?>
+            <img src="<?php echo esc_url( $item['image_url'] ); ?>" alt="<?php echo esc_attr( $item['image_alt'] ); ?>" class="l-hero__gallery-img">
+          <?php endif; ?>
         </div>
-      </div>
-      <div class="l-hero__gallery-item">
-        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop" alt="<?php esc_attr_e( 'Menu design', 'mici-ads' ); ?>" class="l-hero__gallery-img">
-      </div>
-      <div class="l-hero__gallery-item">
-        <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=300&fit=crop" alt="<?php esc_attr_e( 'Branding design', 'mici-ads' ); ?>" class="l-hero__gallery-img">
-      </div>
-      <div class="l-hero__gallery-item">
-        <div class="l-hero__gallery-card" style="background: linear-gradient(135deg, #fefae0, #f5f0e8);">
-          <span style="color: var(--warm-800); font-family: var(--font-serif); font-size: 1.4rem;">Rosa Maria</span>
-          <small style="color: var(--warm-500); display: block; margin-top: 4px;">Filipino Restaurant</small>
-        </div>
-      </div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
