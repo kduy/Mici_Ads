@@ -138,8 +138,8 @@ if ( ! function_exists( 'get_field' ) ) :
 			return $has_data ? $result : null;
 		}
 
-		// Check if it's a portfolio image field (returns image array).
-		if ( preg_match( '/^portfolio_image_\d+$/', $name ) ) {
+		// Check if it's a standalone image field (portfolio or trust logo).
+		if ( preg_match( '/^(portfolio_image_\d+|trust_logo_\d+_image)$/', $name ) ) {
 			$val = get_post_meta( $post_id, $name, true );
 			return $val ? mici_pods_image_array( $val ) : null;
 		}

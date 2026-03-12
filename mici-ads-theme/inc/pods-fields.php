@@ -52,14 +52,20 @@ function mici_register_pods_fields() {
 		$hero_fields
 	);
 
-	// ② Trust Bar.
+	// ② Trust Bar (scrolling client logos).
+	$trust_fields = array(
+		'trust_text' => array( 'name' => 'trust_text', 'label' => 'Trust Statement', 'type' => 'text' ),
+	);
+	for ( $i = 1; $i <= 8; $i++ ) {
+		$prefix = 'trust_logo_' . $i;
+		$trust_fields[ $prefix . '_heading' ] = array( 'name' => $prefix . '_heading', 'label' => 'Logo ' . $i, 'type' => 'heading' );
+		$trust_fields[ $prefix . '_image' ]   = array( 'name' => $prefix . '_image',   'label' => 'Logo Image', 'type' => 'file', 'file_type' => 'images' );
+		$trust_fields[ $prefix . '_name' ]    = array( 'name' => $prefix . '_name',    'label' => 'Client Name (alt text)', 'type' => 'text' );
+	}
 	pods_register_group(
 		array( 'name' => 'mici_trust', 'label' => '② Trust Bar', 'weight' => 1 ),
 		'page',
-		array(
-			'trust_text'         => array( 'name' => 'trust_text',         'label' => 'Trust Statement',            'type' => 'text' ),
-			'trust_clients_list' => array( 'name' => 'trust_clients_list', 'label' => 'Client Names (one per line)', 'type' => 'paragraph', 'paragraph_max_length' => 0 ),
-		)
+		$trust_fields
 	);
 
 	// ③ Services Section (4 items).
