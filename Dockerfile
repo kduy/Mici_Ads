@@ -14,12 +14,12 @@ RUN apt-get update \
 # Allow Imagick to process PDFs (ImageMagick 6 blocks PDF by default)
 RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 
-# Download ACF to staging dir (copied to volume at runtime by entrypoint)
-RUN curl -sL "https://downloads.wordpress.org/plugin/advanced-custom-fields.latest-stable.zip" \
-      -o /tmp/acf.zip \
- && mkdir -p /opt/acf-plugin \
- && unzip -q /tmp/acf.zip -d /opt/acf-plugin/ \
- && rm /tmp/acf.zip
+# Download Pods to staging dir (copied to volume at runtime by entrypoint)
+RUN curl -sL "https://downloads.wordpress.org/plugin/pods.latest-stable.zip" \
+      -o /tmp/pods.zip \
+ && mkdir -p /opt/pods-plugin \
+ && unzip -q /tmp/pods.zip -d /opt/pods-plugin/ \
+ && rm /tmp/pods.zip
 
 # Copy custom theme to both staging dir (for entrypoint) and default location
 COPY mici-ads-theme/ /opt/mici-theme/mici-ads-theme/

@@ -16,13 +16,13 @@ mkdir -p /var/www/html/wp-content/uploads
 chown -R www-data:www-data /var/www/html/wp-content/uploads
 chmod -R 755 /var/www/html/wp-content/uploads
 
-# Copy ACF plugin from staging dir into the persistent volume.
-# This runs every startup so ACF survives volume mounts and rebuilds.
-if [ -d /opt/acf-plugin/advanced-custom-fields ]; then
+# Copy Pods plugin from staging dir into the persistent volume.
+# This runs every startup so Pods survives volume mounts and rebuilds.
+if [ -d /opt/pods-plugin/pods ]; then
   mkdir -p /var/www/html/wp-content/plugins
-  cp -r /opt/acf-plugin/advanced-custom-fields /var/www/html/wp-content/plugins/
-  chown -R www-data:www-data /var/www/html/wp-content/plugins/advanced-custom-fields
-  echo "[mici] ACF plugin copied to plugins directory"
+  cp -r /opt/pods-plugin/pods /var/www/html/wp-content/plugins/
+  chown -R www-data:www-data /var/www/html/wp-content/plugins/pods
+  echo "[mici] Pods plugin copied to plugins directory"
 fi
 
 # Copy theme from image into volume (ensures latest theme code is always used)
