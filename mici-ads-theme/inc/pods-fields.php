@@ -19,6 +19,11 @@ function mici_register_pods_fields() {
 		return;
 	}
 
+	// Extend the built-in 'page' post type so Pods manages its custom fields.
+	pods_register_type( 'post_type', 'page', array(
+		'label' => 'Pages',
+	) );
+
 	// ① Hero Section.
 	$hero_fields = array(
 		'proof_text'         => array( 'name' => 'proof_text',         'label' => 'Proof Text (e.g. "500+ khách hàng hài lòng")', 'type' => 'text' ),
