@@ -56,7 +56,7 @@ function mici_register_pods_fields() {
 	$trust_fields = array(
 		'trust_text' => array( 'name' => 'trust_text', 'label' => 'Trust Statement', 'type' => 'text' ),
 	);
-	for ( $i = 1; $i <= 8; $i++ ) {
+	for ( $i = 1; $i <= 30; $i++ ) {
 		$prefix = 'trust_logo_' . $i;
 		$trust_fields[ $prefix . '_heading' ] = array( 'name' => $prefix . '_heading', 'label' => 'Logo ' . $i, 'type' => 'heading' );
 		$trust_fields[ $prefix . '_image' ]   = array( 'name' => $prefix . '_image',   'label' => 'Logo Image', 'type' => 'file', 'file_type' => 'images' );

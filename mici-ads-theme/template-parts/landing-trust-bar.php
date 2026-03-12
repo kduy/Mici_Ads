@@ -14,7 +14,7 @@ $trust_text = $trust_text ?: 'Được tin tưởng bởi các tiệm nail, nhà
 // Collect trust logos (up to 8).
 $logos = array();
 if ( function_exists( 'get_field' ) ) {
-	for ( $i = 1; $i <= 8; $i++ ) {
+	for ( $i = 1; $i <= 30; $i++ ) {
 		$image = get_field( 'trust_logo_' . $i . '_image' );
 		$name  = get_field( 'trust_logo_' . $i . '_name' );
 		if ( ! empty( $image ) ) {
