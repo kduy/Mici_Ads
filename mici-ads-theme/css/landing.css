@@ -191,7 +191,7 @@
   width: max-content;
 }
 .l-trust__track--marquee {
-  animation: marqueeScroll 20s linear infinite reverse;
+  animation: marqueeScroll 25s linear infinite reverse;
   will-change: transform;
 }
 .l-trust__track--marquee:hover {
@@ -203,13 +203,9 @@
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
-  opacity: 0.5;
-  filter: grayscale(100%);
-  transition: opacity 0.3s ease, filter 0.3s ease;
 }
 .l-trust__logo-img:hover {
-  opacity: 1;
-  filter: grayscale(0%);
+  opacity: 0.8;
 }
 /* Text fallback logos. */
 .l-trust__logo {
