@@ -59,7 +59,7 @@ function mici_register_pods_fields() {
 	for ( $i = 1; $i <= 30; $i++ ) {
 		$prefix = 'trust_logo_' . $i;
 		$trust_fields[ $prefix . '_heading' ] = array( 'name' => $prefix . '_heading', 'label' => 'Logo ' . $i, 'type' => 'heading' );
-		$trust_fields[ $prefix . '_image' ]   = array( 'name' => $prefix . '_image',   'label' => 'Logo Image', 'type' => 'file', 'file_type' => 'images' );
+		$trust_fields[ $prefix . '_image' ]   = array( 'name' => $prefix . '_image',   'label' => 'Logo Image (PNG, SVG, WebP)', 'type' => 'file', 'file_type' => 'any' );
 		$trust_fields[ $prefix . '_name' ]    = array( 'name' => $prefix . '_name',    'label' => 'Client Name (alt text)', 'type' => 'text' );
 	}
 	pods_register_group(

@@ -127,6 +127,38 @@ function mici_ensure_required_pages() {
 add_action( 'init', 'mici_ensure_required_pages' );
 
 /**
+ * Allow SVG uploads in WordPress Media Library.
+ *
+ * @param array $mimes Allowed MIME types.
+ * @return array
+ */
+function mici_allow_svg_uploads( $mimes ) {
+	$mimes['svg']  = 'image/svg+xml';
+	$mimes['svgz'] = 'image/svg+xml';
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'mici_allow_svg_uploads' );
+
+/**
+ * Fix SVG file type detection (WordPress 5.3+ validates MIME on upload).
+ *
+ * @param array  $data     File data.
+ * @param string $file     Full path to file.
+ * @param string $filename The file name.
+ * @param array  $mimes    Allowed MIME types.
+ * @return array
+ */
+function mici_fix_svg_mime_type( $data, $file, $filename, $mimes ) {
+	$ext = pathinfo( $filename, PATHINFO_EXTENSION );
+	if ( 'svg' === strtolower( $ext ) ) {
+		$data['type'] = 'image/svg+xml';
+		$data['ext']  = 'svg';
+	}
+	return $data;
+}
+add_filter( 'wp_check_filetype_and_ext', 'mici_fix_svg_mime_type', 10, 4 );
+
+/**
  * Auto-activate Pods plugin if installed but not active.
  */
 function mici_auto_activate_pods() {
