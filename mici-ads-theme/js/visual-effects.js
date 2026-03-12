@@ -135,18 +135,26 @@ function initScrollReveal() {
    Initialize
    ======================================== */
 
-/** Duplicates children in a track element and starts infinite marquee scroll */
+/** Duplicates children in a track element until it spans ≥ 2× viewport, then starts marquee */
 function initMarquee(trackSelector, activeClass) {
   const track = document.querySelector(trackSelector);
   if (!track || track.children.length === 0) return;
 
-  // Duplicate children for seamless loop
   const items = Array.from(track.children);
-  items.forEach(item => {
-    const clone = item.cloneNode(true);
-    clone.setAttribute("aria-hidden", "true");
-    track.appendChild(clone);
-  });
+  // Duplicate enough times so the track is at least 2× the viewport width.
+  const viewportW = window.innerWidth;
+  let copies = 1;
+  const singleSetWidth = track.scrollWidth;
+  if (singleSetWidth > 0) {
+    copies = Math.max(1, Math.ceil((viewportW * 2) / singleSetWidth));
+  }
+  for (let c = 0; c < copies; c++) {
+    items.forEach(item => {
+      const clone = item.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      track.appendChild(clone);
+    });
+  }
 
   // Activate marquee animation
   track.classList.add(activeClass);
