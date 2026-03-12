@@ -159,6 +159,47 @@ function mici_fix_svg_mime_type( $data, $file, $filename, $mimes ) {
 add_filter( 'wp_check_filetype_and_ext', 'mici_fix_svg_mime_type', 10, 4 );
 
 /**
+ * Skip image processing for SVGs — WordPress image editor cannot resize
+ * vector files and throws "cannot process the image" errors without this.
+ *
+ * @param array $metadata Attachment metadata.
+ * @param int   $attachment_id Attachment ID.
+ * @return array
+ */
+function mici_skip_svg_image_processing( $metadata, $attachment_id ) {
+	$mime = get_post_mime_type( $attachment_id );
+	if ( 'image/svg+xml' === $mime ) {
+		$file = get_attached_file( $attachment_id );
+		if ( $file ) {
+			$metadata = array(
+				'width'  => 0,
+				'height' => 0,
+				'file'   => _wp_relative_upload_path( $file ),
+			);
+		}
+	}
+	return $metadata;
+}
+add_filter( 'wp_generate_attachment_metadata', 'mici_skip_svg_image_processing', 10, 2 );
+
+/**
+ * Prevent WordPress from trying to scale down SVG uploads (big_image_size_threshold).
+ *
+ * @param int    $threshold Max pixel dimension.
+ * @param array  $imagesize Image dimensions.
+ * @param string $file      File path.
+ * @return int|false
+ */
+function mici_disable_svg_big_image_scaling( $threshold, $imagesize, $file ) {
+	$ext = pathinfo( $file, PATHINFO_EXTENSION );
+	if ( 'svg' === strtolower( $ext ) ) {
+		return false; // Disable scaling for SVGs.
+	}
+	return $threshold;
+}
+add_filter( 'big_image_size_threshold', 'mici_disable_svg_big_image_scaling', 10, 3 );
+
+/**
  * Auto-activate Pods plugin if installed but not active.
  */
 function mici_auto_activate_pods() {
