@@ -188,7 +188,7 @@
   width: max-content;
 }
 .l-trust__track--marquee {
-  animation: marqueeScroll 20s linear infinite reverse;
+  animation: marqueeScroll 12s linear infinite reverse;
   will-change: transform;
 }
 .l-trust__track--marquee:hover {
