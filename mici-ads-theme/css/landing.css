@@ -196,7 +196,8 @@
 }
 /* Logo images (uploaded via Pods). */
 .l-trust__logo-img {
-  height: 36px;
+  height: 24px;
+  max-width: 90px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
