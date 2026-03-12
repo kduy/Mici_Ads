@@ -8,7 +8,7 @@ RUN echo "upload_max_filesize = 64M" > /usr/local/etc/php/conf.d/uploads.ini \
 
 # Install Ghostscript for PDF rasterization (Imagick already bundled in base image)
 RUN apt-get update \
- && apt-get install -y --no-install-recommends ghostscript \
+ && apt-get install -y --no-install-recommends ghostscript unzip \
  && rm -rf /var/lib/apt/lists/*
 
 # Allow Imagick to process PDFs (ImageMagick 6 blocks PDF by default)
